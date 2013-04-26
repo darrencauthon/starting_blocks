@@ -2,6 +2,15 @@
 
 require 'fssm'
 
+def display value
+end
+
+if ARGV.include? '--verbose'
+  def display value
+    puts value
+  end
+end
+
 def run_all_specs
   specs = Dir['**/*_spec*'].select { |f| File.file?(f) }.map do |x|
     File.expand_path(x)
@@ -23,10 +32,12 @@ end
 
 def run_it(file, files)
   filename = file.downcase.split('/')[-1].gsub('_spec', '')
+  display file.inspect
+  display filename.inspect
   matches = files.select { |x| x.gsub('_spec', '').include?(filename) && x != file }
   matches << file
   specs = matches.select! { |x| x.include?('_spec') }.map { |x| File.expand_path x }
-  puts specs.inspect
+  display specs.inspect
   run_these_specs specs
 end
 
