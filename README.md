@@ -1,6 +1,4 @@
-# StartingBlocks
-
-TODO: Write a gem description
+# Starting Blocks
 
 ## Installation
 
@@ -18,12 +16,16 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Current command-line options:
 
-## Contributing
+````
+sb
+````
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+Will run all MiniTest specs in your current directory and all child directories.
+
+````
+sb --watch
+````
+
+Will run all MiniTest specs if they or similarly named files are edited.
