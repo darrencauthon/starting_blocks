@@ -21,6 +21,7 @@ end
 
 def run_these_specs specs
   requires = specs.map { |x| "require '#{x}'" }.join("\n")
+  display specs.inspect
   puts `ruby -e "#{requires}"`
 end
 
