@@ -6,8 +6,12 @@ def run_all_specs
   specs = Dir['**/*_spec*'].select { |f| File.file?(f) }.map do |x|
     File.expand_path(x)
   end
-  requires = specs.map { |x| "require '#{x}'" }.join("\n")
 
+  run_these_specs specs
+end
+
+def run_these_specs specs
+  requires = specs.map { |x| "require '#{x}'" }.join("\n")
   puts `ruby -e "#{requires}"`
 end
 
@@ -19,18 +23,16 @@ end
 
 def run_it(file, files)
   filename = file.downcase.split('/')[-1].gsub('_spec', '')
-  puts file
-  puts filename
   matches = files.select { |x| x.gsub('_spec', '').include?(filename) && x != file }
   matches << file
-  matches.select! { |x| x.include?('_spec') }
-  puts matches.inspect
+  specs = matches.select! { |x| x.include?('_spec') }.map { |x| File.expand_path x }
+  puts specs.inspect
+  run_these_specs specs
 end
 
 def delete_it(file, files)
   files.delete(file)
 end
-
 
 if ARGV.include? '--watch'
   files = Dir['**/*']
