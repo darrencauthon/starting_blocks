@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require 'fssm'
+
 def run_all_specs
   specs = Dir['**/*_spec*'].select { |f| File.file?(f) }.map do |x|
     File.expand_path(x)
@@ -9,4 +11,18 @@ def run_all_specs
   puts `ruby -e "#{requires}"`
 end
 
-run_all_specs
+def print_it(relative)
+  return if relative.index('.git') == 0
+  puts relative
+end
+
+if ARGV.include? '--watch'
+  location = File.expand_path(File.dirname(Dir['**/*_spec*'].first))
+  FSSM.monitor(location, '**/*') do
+    update {|base, relative| print_it relative;}
+    delete {|base, relative| print_it relative;}
+    create {|base, relative| print_it relative;}
+  end
+else
+  run_all_specs
+end
