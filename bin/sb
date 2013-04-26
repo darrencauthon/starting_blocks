@@ -1,3 +1,8 @@
 #!/usr/bin/env ruby
 
-puts ARGV.inspect
+specs = Dir['**/*_spec*'].select { |f| File.file?(f) }.map do |x|
+  File.expand_path(x)
+end
+requires = specs.map { |x| "require '#{x}'" }.join("\n")
+
+puts `ruby -e "#{requires}"`
