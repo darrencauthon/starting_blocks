@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = StartingBlocks::VERSION
   spec.authors       = ["Darren Cauthon"]
   spec.email         = ["darren@cauthon.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.description   = %q{Faster minitest TDD.}
+  spec.summary       = %q{One command to run all tests, test watcher, etc.}
   spec.homepage      = ""
   spec.license       = "MIT"
 
