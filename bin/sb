@@ -11,17 +11,34 @@ def run_all_specs
   puts `ruby -e "#{requires}"`
 end
 
-def print_it(relative)
+
+def add_it(file, files)
   return if relative.index('.git') == 0
-  puts relative
+  files << file
 end
 
+def run_it(file, files)
+  filename = file.downcase.split('/')[-1].gsub('_spec', '')
+  puts file
+  puts filename
+  matches = files.select { |x| x.gsub('_spec', '').include?(filename) && x != file }
+  matches << file
+  matches.select! { |x| x.include?('_spec') }
+  puts matches.inspect
+end
+
+def delete_it(file, files)
+  files.delete(file)
+end
+
+
 if ARGV.include? '--watch'
+  files = Dir['**/*']
   location = File.expand_path(File.dirname(Dir['**/*_spec*'].first))
   FSSM.monitor(location, '**/*') do
-    update {|base, relative| print_it relative;}
-    delete {|base, relative| print_it relative;}
-    create {|base, relative| print_it relative;}
+    update {|base, relative| run_it relative, files }
+    delete {|base, relative| delete_it relative, files }
+    create {|base, relative| add_it relative, files }
   end
 else
   run_all_specs
