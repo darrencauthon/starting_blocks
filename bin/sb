@@ -1,30 +1,24 @@
 #!/usr/bin/env ruby
 
 require 'fssm'
+require File.expand_path(File.dirname(__FILE__) + '/../lib/starting_blocks.rb')
+
+options = {}
 
 def display value
 end
 
 if ARGV.include? '--verbose'
-  def display value
-    puts value
-  end
+  options[:verbose] = true
 end
 
-def run_all_specs
-  specs = Dir['**/*_spec.rb*'].select { |f| File.file?(f) }.map do |x|
-    File.expand_path(x)
-  end
+def run_all_specs options
+  specs = Dir['**/*_spec.rb*'].
+    select { |f| File.file?(f) }.
+    map    { |x| File.expand_path(x) }
 
-  run_these_specs specs
+  StartingBlocks::Runner.new(options).run_files specs
 end
-
-def run_these_specs specs
-  requires = specs.map { |x| "require '#{x}'" }.join("\n")
-  display "Specs to run: #{specs.inspect}"
-  puts `ruby -e "#{requires}"`
-end
-
 
 def add_it(file, files)
   return if file.index('.git') == 0
@@ -40,7 +34,7 @@ def run_it(file, files)
   matches << file
   specs = matches.select { |x| x.include?('_spec') && File.file?(x) }.map { |x| File.expand_path x }
   display "Matches: #{specs.inspect}"
-  run_these_specs specs
+  StartingBlocks::Runner.new(options).run_files specs
 end
 
 def delete_it(file, files)
@@ -60,5 +54,5 @@ if ARGV.include? '--watch'
     create {|base, relative| add_it relative, files }
   end
 else
-  run_all_specs
+  run_all_specs options
 end
