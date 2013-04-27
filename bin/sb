@@ -51,7 +51,9 @@ end
 
 if ARGV.include? '--watch'
   files = Dir['**/*']
-  location = File.expand_path(File.dirname(Dir['**/*_spec.rb*'].first))
+  segments = File.expand_path(Dir['*'].first).split('/')
+  segments.pop
+  location = segments.join('/')
   FSSM.monitor(location, '**/*') do
     update {|base, relative| run_it relative, files }
     delete {|base, relative| delete_it relative, files }
