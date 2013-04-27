@@ -56,4 +56,31 @@ EOF
       subject.parse(text).contrast_with! expected_results
     end
   end
+
+  describe "unparsable text" do
+    let(:text) do <<EOF
+aaaaa
+lkjsdlfkjslkjslkjalskjfsalkjfd
+bbbbbb
+EOF
+    end
+
+    let(:expected_results) do
+      {
+        tests: 0,
+        assertions: 0,
+        failures: 0,
+        errors: 0,
+        skips: 0
+      }
+    end
+
+    def subject
+      StartingBlocks::ResultParser.new
+    end
+
+    it "should return the counts" do
+      subject.parse(text).contrast_with! expected_results
+    end
+  end
 end

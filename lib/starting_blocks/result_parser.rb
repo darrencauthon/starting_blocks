@@ -12,6 +12,8 @@ module StartingBlocks
 
     def get_count_of name, text
       text.scan(/(\d+ #{name})/)[-1][0].split(' ')[0].to_i
+    rescue
+      0
     end
   end
 end
