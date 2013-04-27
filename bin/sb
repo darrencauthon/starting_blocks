@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'fssm'
 require File.expand_path(File.dirname(__FILE__) + '/../lib/starting_blocks.rb')
 
 options = {}
@@ -20,39 +19,12 @@ def run_all_specs options
   StartingBlocks::Runner.new(options).run_files specs
 end
 
-def add_it(file, files)
-  return if file.index('.git') == 0
-  display "Adding: #{file}"
-  files << file
-end
-
-def run_it(file, files)
-  filename = file.downcase.split('/')[-1].gsub('_spec', '')
-  display "File to run is: #{file}"
-  display "Filename: #{filename}"
-  matches = files.select { |x| x.gsub('_spec.rb', '.rb').include?(filename) && x != file }
-  matches << file
-  specs = matches.select { |x| x.include?('_spec') && File.file?(x) }.map { |x| File.expand_path x }
-  display "Matches: #{specs.inspect}"
-  StartingBlocks::Runner.new(options).run_files specs
-end
-
-def delete_it(file, files)
-  return if file.index('.git') == 0
-  display "Deleting: #{file}"
-  files.delete(file)
-end
-
 if ARGV.include? '--watch'
-  files = Dir['**/*']
   segments = File.expand_path(Dir['*'].first).split('/')
   segments.pop
   location = segments.join('/')
-  FSSM.monitor(location, '**/*') do
-    update {|base, relative| run_it relative, files }
-    delete {|base, relative| delete_it relative, files }
-    create {|base, relative| add_it relative, files }
-  end
+
+  StartingBlocks::Watcher.new(location, options).start_watching
 else
   run_all_specs options
 end
