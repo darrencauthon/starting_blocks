@@ -20,11 +20,7 @@ def run_all_specs options
 end
 
 if ARGV.include? '--watch'
-  segments = File.expand_path(Dir['*'].first).split('/')
-  segments.pop
-  location = segments.join('/')
-
-  StartingBlocks::Watcher.start_watching Dir['**/*'], location, options
+  StartingBlocks::Watcher.start_watching Dir, options
 else
   run_all_specs options
 end

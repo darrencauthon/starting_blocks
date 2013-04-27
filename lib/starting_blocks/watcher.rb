@@ -3,7 +3,9 @@ require 'fssm'
 module StartingBlocks
   module Watcher
     class << self
-      def start_watching(files, location, options)
+      def start_watching(dir, options)
+        location = dir.getwd
+        files = Dir['**/*']
         FSSM.monitor(location, '**/*') do
           update {|base, relative| StartingBlocks::Watcher.run_it relative, files, options }
           delete {|base, relative| StartingBlocks::Watcher.delete_it relative, files, options }
