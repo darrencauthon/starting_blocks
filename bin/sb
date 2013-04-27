@@ -27,7 +27,7 @@ end
 
 
 def add_it(file, files)
-  return if relative.index('.git') == 0
+  return if file.index('.git') == 0
   files << file
 end
 
