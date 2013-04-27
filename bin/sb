@@ -38,7 +38,7 @@ def run_it(file, files)
   display "Filename: #{filename}"
   matches = files.select { |x| x.gsub('_spec.rb', '.rb').include?(filename) && x != file }
   matches << file
-  specs = matches.select! { |x| x.include?('_spec') && File.file?(x) }.map { |x| File.expand_path x }
+  specs = matches.select { |x| x.include?('_spec') && File.file?(x) }.map { |x| File.expand_path x }
   display "Matches: #{specs.inspect}"
   run_these_specs specs
 end
