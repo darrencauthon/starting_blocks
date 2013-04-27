@@ -5,12 +5,17 @@ module StartingBlocks
     end
 
     def run_files specs
-      requires = specs.map { |x| "require '#{x}'" }.join("\n")
       display "Specs to run: #{specs.inspect}"
-      puts `ruby -e "#{requires}"`
+      results = execute_these_specs specs
+      puts results
     end
 
     private
+
+    def execute_these_specs specs
+      requires = specs.map { |x| "require '#{x}'" }.join("\n")
+      `ruby -e "#{requires}"`
+    end
 
     def display message
       puts message if @verbose
