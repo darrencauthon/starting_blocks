@@ -21,28 +21,31 @@ end
 
 def run_these_specs specs
   requires = specs.map { |x| "require '#{x}'" }.join("\n")
-  display specs.inspect
+  display "Specs to run: #{specs.inspect}"
   puts `ruby -e "#{requires}"`
 end
 
 
 def add_it(file, files)
   return if file.index('.git') == 0
+  display "Adding: #{file}"
   files << file
 end
 
 def run_it(file, files)
   filename = file.downcase.split('/')[-1].gsub('_spec', '')
-  display file.inspect
-  display filename.inspect
+  display "File to run is: #{file}"
+  display "Filename: #{filename}"
   matches = files.select { |x| x.gsub('_spec', '').include?(filename) && x != file }
   matches << file
   specs = matches.select! { |x| x.include?('_spec') }.map { |x| File.expand_path x }
-  display specs.inspect
+  display "Matches: #{specs.inspect}"
   run_these_specs specs
 end
 
 def delete_it(file, files)
+  return if file.index('.git') == 0
+  display "Deleting: #{file}"
   files.delete(file)
 end
 
