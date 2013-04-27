@@ -1,5 +1,8 @@
 module StartingBlocks
   class Runner
+
+    include Displayable
+
     def initialize options
       @verbose = options[:verbose]
     end
@@ -15,10 +18,6 @@ module StartingBlocks
     def execute_these_specs specs
       requires = specs.map { |x| "require '#{x}'" }.join("\n")
       `ruby -e "#{requires}"`
-    end
-
-    def display message
-      puts message if @verbose
     end
   end
 end

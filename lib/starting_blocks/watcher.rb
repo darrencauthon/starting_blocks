@@ -2,6 +2,9 @@ require 'fssm'
 
 module StartingBlocks
   module Watcher
+
+    include Displayable
+
     class << self
       def start_watching(dir, options)
         location = dir.getwd
@@ -34,12 +37,6 @@ module StartingBlocks
         return if file.index('.git') == 0
         display "Deleting: #{file}"
         files.delete(file)
-      end
-
-      private
-
-      def display message
-        puts message if @verbose
       end
     end
   end
