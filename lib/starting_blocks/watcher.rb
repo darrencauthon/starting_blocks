@@ -24,8 +24,6 @@ module StartingBlocks
 
       def run_it(file, files, options)
         filename = file.downcase.split('/')[-1].gsub('_spec', '')
-        display "File to run is: #{file}"
-        display "Filename: #{filename}"
         matches = files.select { |x| x.gsub('_spec.rb', '.rb').include?(filename) && x != file }
         matches << file
         specs = matches.select { |x| x.include?('_spec') && File.file?(x) }.map { |x| File.expand_path x }
