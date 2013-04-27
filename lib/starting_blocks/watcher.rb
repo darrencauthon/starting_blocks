@@ -23,10 +23,7 @@ module StartingBlocks
       end
 
       def run_it(file, files, options)
-        filename = file.downcase.split('/')[-1].gsub('_spec', '')
-        matches = files.select { |x| x.gsub('_spec.rb', '.rb').include?(filename) && x != file }
-        matches << file
-        specs = matches.select { |x| x.include?('_spec') && File.file?(x) }.map { |x| File.expand_path x }
+        specs = get_the_specs_to_run file, files
         display "Matches: #{specs.inspect}"
         StartingBlocks::Runner.new(options).run_files specs
       end
@@ -35,6 +32,15 @@ module StartingBlocks
         return if file.index('.git') == 0
         display "Deleting: #{file}"
         files.delete(file)
+      end
+
+      private
+
+      def get_the_specs_to_run(file, files)
+        filename = file.downcase.split('/')[-1].gsub('_spec', '')
+        matches = files.select { |x| x.gsub('_spec.rb', '.rb').include?(filename) && x != file }
+        matches << file
+        specs = matches.select { |x| x.include?('_spec') && File.file?(x) }.map { |x| File.expand_path x }
       end
     end
   end
