@@ -24,7 +24,7 @@ if ARGV.include? '--watch'
   segments.pop
   location = segments.join('/')
 
-  StartingBlocks::Watcher.new(location, options).start_watching
+  StartingBlocks::Watcher.start_watching Dir['**/*'], location, options
 else
   run_all_specs options
 end
