@@ -43,4 +43,10 @@ describe StartingBlocks do
       StartingBlocks::Publisher.publish results
     end
   end
+
+  describe "result_parser" do
+    it "should default to an instance of ResultParser" do
+      StartingBlocks::Publisher.result_parser.class.must_equal StartingBlocks::ResultParser
+    end
+  end
 end

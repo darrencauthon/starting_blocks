@@ -1,7 +1,7 @@
 module StartingBlocks
   module Publisher
     class << self
-      attr_accessor :subscribers
+      attr_accessor :subscribers, :result_parser
 
       def publish results
         return unless @subscribers
@@ -11,3 +11,4 @@ module StartingBlocks
   end
 end
 StartingBlocks::Publisher.subscribers = []
+StartingBlocks::Publisher.result_parser = StartingBlocks::ResultParser.new
