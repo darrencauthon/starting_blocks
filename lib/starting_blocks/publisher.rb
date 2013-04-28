@@ -5,7 +5,10 @@ module StartingBlocks
 
       def publish results
         return unless @subscribers
-        @subscribers.each { |s| s.receive results }
+        @subscribers.each do |s| 
+          parsed_results = StartingBlocks::Publisher.result_parser.parse(results)
+          s.receive parsed_results
+        end
       end
     end
   end
