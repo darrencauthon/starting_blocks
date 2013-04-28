@@ -12,7 +12,7 @@ describe StartingBlocks do
       subscriber = mock()
       subscriber.expects(:receive).with(results)
       StartingBlocks::Publisher.subscribers = [subscriber]
-      StartingBlocks::Publisher.publish_results results
+      StartingBlocks::Publisher.publish results
     end
   end
 
@@ -24,7 +24,7 @@ describe StartingBlocks do
       second_subscriber = mock()
       second_subscriber.expects(:receive).with(results)
       StartingBlocks::Publisher.subscribers = [first_subscriber, second_subscriber]
-      StartingBlocks::Publisher.publish_results results
+      StartingBlocks::Publisher.publish results
     end
   end
 
@@ -32,7 +32,7 @@ describe StartingBlocks do
     it "should not error" do
       results = Object.new
       StartingBlocks::Publisher.subscribers = nil
-      StartingBlocks::Publisher.publish_results results
+      StartingBlocks::Publisher.publish results
     end
   end
 
@@ -40,7 +40,7 @@ describe StartingBlocks do
     it "should not error" do
       results = Object.new
       StartingBlocks::Publisher.subscribers = []
-      StartingBlocks::Publisher.publish_results results
+      StartingBlocks::Publisher.publish results
     end
   end
 end

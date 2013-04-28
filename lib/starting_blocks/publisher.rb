@@ -3,7 +3,7 @@ module StartingBlocks
     class << self
       attr_accessor :subscribers
 
-      def publish_results results
+      def publish results
         return unless @subscribers
         @subscribers.each { |s| s.receive results }
       end
