@@ -5,7 +5,7 @@ module StartingBlocks
 
       def publish_results results
         return unless @subscribers
-        @subscribers.each { |s| s.receive_results results }
+        @subscribers.each { |s| s.receive results }
       end
     end
   end

@@ -10,7 +10,7 @@ describe StartingBlocks do
     it "should pass the results to the subscriber" do
       results = Object.new
       subscriber = mock()
-      subscriber.expects(:receive_results).with(results)
+      subscriber.expects(:receive).with(results)
       StartingBlocks::Publisher.subscribers = [subscriber]
       StartingBlocks::Publisher.publish_results results
     end
@@ -20,9 +20,9 @@ describe StartingBlocks do
     it "should pass the results to the subscriber" do
       results = Object.new
       first_subscriber = mock()
-      first_subscriber.expects(:receive_results).with(results)
+      first_subscriber.expects(:receive).with(results)
       second_subscriber = mock()
-      second_subscriber.expects(:receive_results).with(results)
+      second_subscriber.expects(:receive).with(results)
       StartingBlocks::Publisher.subscribers = [first_subscriber, second_subscriber]
       StartingBlocks::Publisher.publish_results results
     end
