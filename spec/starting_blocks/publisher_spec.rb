@@ -12,10 +12,6 @@ describe StartingBlocks::Publisher do
     StartingBlocks::Publisher.result_parser = result_parser
   end
 
-  it "subscribers should be empty" do
-    StartingBlocks::Publisher.subscribers.count.must_equal 0
-  end
-
   describe "#publish_results" do
     describe "one subscriber" do
       it "should pass the results to the subscriber" do
