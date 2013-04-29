@@ -23,5 +23,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "contrast"
   spec.add_development_dependency "subtle"
   spec.add_development_dependency "mocha"
-  spec.add_runtime_dependency 'fssm'
+  spec.add_runtime_dependency 'listen'
 end

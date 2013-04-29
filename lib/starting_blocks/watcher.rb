@@ -1,4 +1,4 @@
-require 'fssm'
+require 'listen'
 
 module StartingBlocks
   module Watcher
@@ -9,10 +9,16 @@ module StartingBlocks
       def start_watching(dir, options)
         location = dir.getwd
         all_files = Dir['**/*']
-        FSSM.monitor(location, '**/*') do
-          update {|base, file_that_changed| StartingBlocks::Watcher.run_it file_that_changed, all_files, options }
-          delete {|base, file_that_changed| StartingBlocks::Watcher.delete_it file_that_changed, all_files, options }
-          create {|base, file_that_changed| StartingBlocks::Watcher.add_it file_that_changed, all_files, options }
+        Listen.to(location) do |modified, added, removed|
+          if modified.count > 0
+            StartingBlocks::Watcher.run_it modified[0], all_files, options
+          end
+          if added.count > 0
+            StartingBlocks::Watcher.add_it added[0], all_files, options
+          end
+          if removed.count > 0
+            StartingBlocks::Watcher.delete_it removed[0], all_files, options
+          end
         end
       end
 
