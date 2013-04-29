@@ -3,7 +3,7 @@ module StartingBlocks
     class << self
       attr_accessor :subscribers, :result_parser
 
-      def publish results
+      def publish_results results
         return unless @subscribers
         @subscribers.each do |s| 
           parsed_results = StartingBlocks::Publisher.result_parser.parse(results)

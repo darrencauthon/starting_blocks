@@ -20,7 +20,7 @@ describe StartingBlocks::Publisher do
       subscriber = mock()
       subscriber.expects(:receive).with(parsed_results)
       StartingBlocks::Publisher.subscribers = [subscriber]
-      StartingBlocks::Publisher.publish results
+      StartingBlocks::Publisher.publish_results results
     end
   end
 
@@ -31,21 +31,21 @@ describe StartingBlocks::Publisher do
       second_subscriber = mock()
       second_subscriber.expects(:receive).with(parsed_results)
       StartingBlocks::Publisher.subscribers = [first_subscriber, second_subscriber]
-      StartingBlocks::Publisher.publish results
+      StartingBlocks::Publisher.publish_results results
     end
   end
 
   describe "nil subscribers" do
     it "should not error" do
       StartingBlocks::Publisher.subscribers = nil
-      StartingBlocks::Publisher.publish results
+      StartingBlocks::Publisher.publish_results results
     end
   end
 
   describe "no subscribers" do
     it "should not error" do
       StartingBlocks::Publisher.subscribers = []
-      StartingBlocks::Publisher.publish results
+      StartingBlocks::Publisher.publish_results results
     end
   end
 end
