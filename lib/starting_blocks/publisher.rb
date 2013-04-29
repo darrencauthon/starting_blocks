@@ -14,7 +14,10 @@ module StartingBlocks
       def publish_specs_to_run specs
         return unless @subscribers
         @subscribers.each do |s| 
-          s.receive_specs_to_run specs
+          begin
+            s.receive_specs_to_run specs
+          rescue
+          end
         end
       end
     end

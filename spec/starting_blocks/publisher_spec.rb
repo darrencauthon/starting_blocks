@@ -86,5 +86,17 @@ describe StartingBlocks::Publisher do
         StartingBlocks::Publisher.publish_specs_to_run specs
       end
     end
+
+    describe "subscriber with no method to receive" do
+      it "should not error" do
+        first_subscriber = mock()
+        first_subscriber.expects(:receive_specs_to_run).with(specs)
+        second_subscriber = Object.new
+        third_subscriber = mock()
+        third_subscriber.expects(:receive_specs_to_run).with(specs)
+        StartingBlocks::Publisher.subscribers = [first_subscriber, second_subscriber, third_subscriber]
+        StartingBlocks::Publisher.publish_specs_to_run specs
+      end
+    end
   end
 end
