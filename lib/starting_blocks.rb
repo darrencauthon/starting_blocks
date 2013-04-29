@@ -10,8 +10,3 @@ module StartingBlocks
   # Your code goes here...
 end
 StartingBlocks::Publisher.subscribers << StartingBlocks::Extensions::GreenOnSuccessRedOnFailure.new
-
-at_exit do
-  sleep(0.5)
-  Blinky.new.light.off!
-end
