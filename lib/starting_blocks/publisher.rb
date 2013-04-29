@@ -7,7 +7,10 @@ module StartingBlocks
         return unless @subscribers
         @subscribers.each do |s| 
           parsed_results = StartingBlocks::Publisher.result_parser.parse(results)
-          s.receive_results parsed_results
+          begin
+            s.receive_results parsed_results
+          rescue
+          end
         end
       end
 

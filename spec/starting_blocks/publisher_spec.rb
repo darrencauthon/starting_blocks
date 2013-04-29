@@ -50,6 +50,18 @@ describe StartingBlocks::Publisher do
         StartingBlocks::Publisher.publish_results results
       end
     end
+
+    describe "subscriber with no method to receive" do
+      it "should pass the results to the subscriber" do
+        first_subscriber = mock()
+        first_subscriber.expects(:receive_results).with(parsed_results)
+        second_subscriber = Object.new
+        third_subscriber = mock()
+        third_subscriber.expects(:receive_results).with(parsed_results)
+        StartingBlocks::Publisher.subscribers = [first_subscriber, second_subscriber, third_subscriber]
+        StartingBlocks::Publisher.publish_results results
+      end
+    end
   end
 
   describe "#publish_specs_to_run" do
