@@ -9,6 +9,7 @@ module StartingBlocks
 
     def run_files specs
       display "Specs to run: #{specs.inspect}"
+      StartingBlocks::Publisher.publish_specs_to_run specs
       results = execute_these_specs specs
       StartingBlocks::Publisher.publish_results results
       puts results

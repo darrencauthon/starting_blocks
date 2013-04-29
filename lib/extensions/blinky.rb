@@ -3,6 +3,11 @@ require 'blinky'
 module StartingBlocks
   module Extensions
     class GreenOnSuccessRedOnFailure
+
+      def receive_specs_to_run specs
+        Blinky.new.light.building!
+      end
+
       def receive_results results
         if (results[:errors] || 0) > 0
           Blinky.new.light.failure!
