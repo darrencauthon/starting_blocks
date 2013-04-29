@@ -38,3 +38,7 @@ module StartingBlocks
     end
   end
 end
+
+at_exit do
+  Blinky.new.light.off!
+end
