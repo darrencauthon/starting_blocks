@@ -9,6 +9,7 @@ module StartingBlocks
       def start_watching(dir, options)
         location = dir.getwd
         all_files = Dir['**/*']
+        puts "Listening to: #{location}"
         Listen.to(location) do |modified, added, removed|
           if modified.count > 0
             StartingBlocks::Watcher.run_it modified[0], all_files, options
