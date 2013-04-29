@@ -19,7 +19,7 @@ describe StartingBlocks::Publisher do
     describe "one subscriber" do
       it "should pass the results to the subscriber" do
         subscriber = mock()
-        subscriber.expects(:receive).with(parsed_results)
+        subscriber.expects(:receive_results).with(parsed_results)
         StartingBlocks::Publisher.subscribers = [subscriber]
         StartingBlocks::Publisher.publish_results results
       end
@@ -28,9 +28,9 @@ describe StartingBlocks::Publisher do
     describe "two subscribers" do
       it "should pass the results to the subscriber" do
         first_subscriber = mock()
-        first_subscriber.expects(:receive).with(parsed_results)
+        first_subscriber.expects(:receive_results).with(parsed_results)
         second_subscriber = mock()
-        second_subscriber.expects(:receive).with(parsed_results)
+        second_subscriber.expects(:receive_results).with(parsed_results)
         StartingBlocks::Publisher.subscribers = [first_subscriber, second_subscriber]
         StartingBlocks::Publisher.publish_results results
       end
