@@ -15,37 +15,39 @@ describe StartingBlocks::Publisher do
     StartingBlocks::Publisher.subscribers.count.must_equal 0
   end
 
-  describe "one subscriber" do
-    it "should pass the results to the subscriber" do
-      subscriber = mock()
-      subscriber.expects(:receive).with(parsed_results)
-      StartingBlocks::Publisher.subscribers = [subscriber]
-      StartingBlocks::Publisher.publish_results results
+  describe "#publish_results" do
+    describe "one subscriber" do
+      it "should pass the results to the subscriber" do
+        subscriber = mock()
+        subscriber.expects(:receive).with(parsed_results)
+        StartingBlocks::Publisher.subscribers = [subscriber]
+        StartingBlocks::Publisher.publish_results results
+      end
     end
-  end
 
-  describe "two subscribers" do
-    it "should pass the results to the subscriber" do
-      first_subscriber = mock()
-      first_subscriber.expects(:receive).with(parsed_results)
-      second_subscriber = mock()
-      second_subscriber.expects(:receive).with(parsed_results)
-      StartingBlocks::Publisher.subscribers = [first_subscriber, second_subscriber]
-      StartingBlocks::Publisher.publish_results results
+    describe "two subscribers" do
+      it "should pass the results to the subscriber" do
+        first_subscriber = mock()
+        first_subscriber.expects(:receive).with(parsed_results)
+        second_subscriber = mock()
+        second_subscriber.expects(:receive).with(parsed_results)
+        StartingBlocks::Publisher.subscribers = [first_subscriber, second_subscriber]
+        StartingBlocks::Publisher.publish_results results
+      end
     end
-  end
 
-  describe "nil subscribers" do
-    it "should not error" do
-      StartingBlocks::Publisher.subscribers = nil
-      StartingBlocks::Publisher.publish_results results
+    describe "nil subscribers" do
+      it "should not error" do
+        StartingBlocks::Publisher.subscribers = nil
+        StartingBlocks::Publisher.publish_results results
+      end
     end
-  end
 
-  describe "no subscribers" do
-    it "should not error" do
-      StartingBlocks::Publisher.subscribers = []
-      StartingBlocks::Publisher.publish_results results
+    describe "no subscribers" do
+      it "should not error" do
+        StartingBlocks::Publisher.subscribers = []
+        StartingBlocks::Publisher.publish_results results
+      end
     end
   end
 end
