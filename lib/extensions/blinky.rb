@@ -4,6 +4,10 @@ module StartingBlocks
   module Extensions
     class GreenOnSuccessRedOnFailure
 
+      def initialize
+        @light = Blinky.new.light
+      end
+
       def receive_specs_to_run specs
         @spec_count = specs.count
         return if specs.count == 0
@@ -28,11 +32,11 @@ module StartingBlocks
       def change_color_to(color)
         case color
         when :green
-          Blinky.new.light.success!
+          @light.success!
         when :red
-          Blinky.new.light.failure!
+          @light.failure!
         when :yellow
-          Blinky.new.light.building!
+          @light.building!
         end
       rescue
       end
