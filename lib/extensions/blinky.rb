@@ -39,10 +39,3 @@ module StartingBlocks
     end
   end
 end
-
-at_exit do
-  begin
-    Blinky.new.light.off!
-  rescue
-  end
-end
