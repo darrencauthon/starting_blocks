@@ -34,11 +34,15 @@ module StartingBlocks
         when :yellow
           Blinky.new.light.building!
         end
+      rescue
       end
     end
   end
 end
 
 at_exit do
-  Blinky.new.light.off!
+  begin
+    Blinky.new.light.off!
+  rescue
+  end
 end
