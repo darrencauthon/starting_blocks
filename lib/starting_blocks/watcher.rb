@@ -3,6 +3,8 @@ require 'listen'
 module StartingBlocks
   module Watcher
 
+    TEST_FILE_CLUES = ["_test", "test_", "_spec"]
+
     include Displayable
 
     class << self
@@ -44,10 +46,20 @@ module StartingBlocks
       private
 
       def get_the_specs_to_run(file_that_changed, all_files)
-        filename = file_that_changed.downcase.split('/')[-1].gsub('_spec', '')
-        matches = all_files.select { |x| x.gsub('_spec.rb', '.rb').include?(filename) && x != file_that_changed }
+        filename = flush_file_name file_that_changed
+        matches = all_files.select { |x| flush_file_name(x).include?(filename) && x != file_that_changed }
         matches << file_that_changed
-        specs = matches.select { |x| x.include?('_spec') && File.file?(x) }.map { |x| File.expand_path x }
+        specs = matches.select { |x| is_a_test_file?(x) && File.file?(x) }.map { |x| File.expand_path x }
+      end
+
+      def is_a_test_file?(file)
+        matches = TEST_FILE_CLUES.select { |clue| file.to_s.include?(clue) }
+        matches.count > 0
+      end
+
+      def flush_file_name(file)
+        the_file = file.downcase.split('/')[-1]
+        TEST_FILE_CLUES.reduce(the_file) { |t, i| t.gsub(i, '') }
       end
     end
   end
