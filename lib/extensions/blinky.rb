@@ -1,5 +1,19 @@
 require 'blinky'
 
+# fix issue where no light will cause lock-up
+module Blinky
+  class LightFactory
+    class << self
+      alias :original_detect_lights :detect_lights
+      def detect_lights plugins, recipes
+        original_detect_lights plugins, recipes
+      rescue
+        []
+      end
+    end
+  end
+end
+
 module StartingBlocks
   module Extensions
     class GreenOnSuccessRedOnFailure
