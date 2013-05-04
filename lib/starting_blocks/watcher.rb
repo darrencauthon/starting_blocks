@@ -3,6 +3,8 @@ require 'listen'
 module StartingBlocks
   module Watcher
 
+    TEST_FILE_CLUES = ["_test", "test_", "_spec"]
+
     include Displayable
 
     class << self
@@ -51,11 +53,13 @@ module StartingBlocks
       end
 
       def is_a_test_file?(file)
-        file.to_s.include?('_spec') || file.to_s.include?('_test') || file.to_s.include?('test_')
+        matches = TEST_FILE_CLUES.select { |clue| file.to_s.include?(clue) }
+        matches.count > 0
       end
 
       def flush_file_name(file)
-        file.downcase.split('/')[-1].gsub('_spec', '').gsub('test_', '').gsub('_test', '')
+        the_file = file.downcase.split('/')[-1]
+        TEST_FILE_CLUES.reduce(the_file) { |t, i| t.gsub(i, '') }
       end
     end
   end

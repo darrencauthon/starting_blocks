@@ -12,20 +12,11 @@ if ARGV.include? '--verbose'
 end
 
 def run_all_specs options
-  specs = Dir['**/*_spec.rb*'].
-    select { |f| File.file?(f) }.
-    map    { |x| File.expand_path(x) }
-
-  tests = Dir['**/*_test.rb*'].
-    select { |f| File.file?(f) }.
-    map    { |x| File.expand_path(x) }
-
-  more_tests = Dir['**/test_*.rb*'].
-    select { |f| File.file?(f) }.
-    map    { |x| File.expand_path(x) }
-
-  files = specs + tests + more_tests
-  files = files.flatten
+  files = ['**/*_spec.rb*', '**/*_test.rb*', '**/test_*.rb*'].map do |d|
+    Dir[d].
+      select { |f| File.file?(f) }.
+      map    { |x| File.expand_path(x) }
+  end.flatten
 
   StartingBlocks::Runner.new(options).run_files files
 end
