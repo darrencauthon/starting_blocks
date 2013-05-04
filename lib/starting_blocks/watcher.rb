@@ -44,10 +44,18 @@ module StartingBlocks
       private
 
       def get_the_specs_to_run(file_that_changed, all_files)
-        filename = file_that_changed.downcase.split('/')[-1].gsub('_spec', '')
-        matches = all_files.select { |x| x.gsub('_spec.rb', '.rb').include?(filename) && x != file_that_changed }
+        filename = flush_file_name file_that_changed
+        matches = all_files.select { |x| flush_file_name(x).include?(filename) && x != file_that_changed }
         matches << file_that_changed
-        specs = matches.select { |x| x.include?('_spec') && File.file?(x) }.map { |x| File.expand_path x }
+        specs = matches.select { |x| is_a_test_file?(x) && File.file?(x) }.map { |x| File.expand_path x }
+      end
+
+      def is_a_test_file?(file)
+        file.to_s.include?('_spec') || file.to_s.include?('_test') || file.to_s.include?('test_')
+      end
+
+      def flush_file_name(file)
+        file.downcase.split('/')[-1].gsub('_spec', '').gsub('test_', '').gsub('_test', '')
       end
     end
   end
