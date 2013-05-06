@@ -5,7 +5,7 @@ describe StartingBlocks::Publisher do
   let(:results)        { Object.new }
   let(:parsed_results) { Object.new }
   let(:result_parser)  { mock()     }
-  let(:specs)          { Object.new }
+  let(:files)          { Object.new }
 
   before do
     result_parser.stubs(:parse).with(results).returns parsed_results
@@ -60,50 +60,50 @@ describe StartingBlocks::Publisher do
     end
   end
 
-  describe "#publish_specs_to_run" do
+  describe "#publish_files_to_run" do
     describe "one subscriber" do
-      it "should pass the specs to the subscriber" do
+      it "should pass the files to the subscriber" do
         subscriber = mock()
-        subscriber.expects(:receive_specs_to_run).with(specs)
+        subscriber.expects(:receive_files_to_run).with(files)
         StartingBlocks::Publisher.subscribers = [subscriber]
-        StartingBlocks::Publisher.publish_specs_to_run specs
+        StartingBlocks::Publisher.publish_files_to_run files
       end
     end
 
     describe "two subscribers" do
-      it "should pass the specs to the subscriber" do
+      it "should pass the files to the subscriber" do
         first_subscriber = mock()
-        first_subscriber.expects(:receive_specs_to_run).with(specs)
+        first_subscriber.expects(:receive_files_to_run).with(files)
         second_subscriber = mock()
-        second_subscriber.expects(:receive_specs_to_run).with(specs)
+        second_subscriber.expects(:receive_files_to_run).with(files)
         StartingBlocks::Publisher.subscribers = [first_subscriber, second_subscriber]
-        StartingBlocks::Publisher.publish_specs_to_run specs
+        StartingBlocks::Publisher.publish_files_to_run files
       end
     end
 
     describe "nil subscribers" do
       it "should not error" do
         StartingBlocks::Publisher.subscribers = nil
-        StartingBlocks::Publisher.publish_specs_to_run specs
+        StartingBlocks::Publisher.publish_files_to_run files
       end
     end
 
     describe "no subscribers" do
       it "should not error" do
         StartingBlocks::Publisher.subscribers = []
-        StartingBlocks::Publisher.publish_specs_to_run specs
+        StartingBlocks::Publisher.publish_files_to_run files
       end
     end
 
     describe "subscriber with no method to receive" do
       it "should not error" do
         first_subscriber = mock()
-        first_subscriber.expects(:receive_specs_to_run).with(specs)
+        first_subscriber.expects(:receive_files_to_run).with(files)
         second_subscriber = Object.new
         third_subscriber = mock()
-        third_subscriber.expects(:receive_specs_to_run).with(specs)
+        third_subscriber.expects(:receive_files_to_run).with(files)
         StartingBlocks::Publisher.subscribers = [first_subscriber, second_subscriber, third_subscriber]
-        StartingBlocks::Publisher.publish_specs_to_run specs
+        StartingBlocks::Publisher.publish_files_to_run files
       end
     end
   end

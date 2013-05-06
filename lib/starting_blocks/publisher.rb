@@ -14,11 +14,11 @@ module StartingBlocks
         end
       end
 
-      def publish_specs_to_run specs
+      def publish_files_to_run files
         return unless @subscribers
         @subscribers.each do |s| 
           begin
-            s.receive_specs_to_run specs
+            s.receive_files_to_run files
           rescue
           end
         end

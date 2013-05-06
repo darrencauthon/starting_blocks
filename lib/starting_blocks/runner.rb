@@ -7,18 +7,18 @@ module StartingBlocks
       @verbose = options[:verbose]
     end
 
-    def run_files specs
-      display "Specs to run: #{specs.inspect}"
-      StartingBlocks::Publisher.publish_specs_to_run specs
-      results = execute_these_specs specs
+    def run_files files
+      display "Files to run: #{files.inspect}"
+      StartingBlocks::Publisher.publish_files_to_run files
+      results = execute_these_files files
       StartingBlocks::Publisher.publish_results results
       puts results
     end
 
     private
 
-    def execute_these_specs specs
-      requires = specs.map { |x| "require '#{x}'" }.join("\n")
+    def execute_these_files files
+      requires = files.map { |x| "require '#{x}'" }.join("\n")
       `ruby -e "#{requires}"`
     end
   end
