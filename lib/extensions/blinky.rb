@@ -22,9 +22,9 @@ module StartingBlocks
         @light = Blinky.new.light
       end
 
-      def receive_specs_to_run specs
-        @spec_count = specs.count
-        return if specs.count == 0
+      def receive_files_to_run files
+        @spec_count = files.count
+        return if files.count == 0
         change_color_to :yellow
       end
 
