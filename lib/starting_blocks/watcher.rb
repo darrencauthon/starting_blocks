@@ -37,13 +37,7 @@ module StartingBlocks
         specs = get_the_specs_to_run file_that_changed, all_files
         display "Matches: #{specs.inspect}"
         results = StartingBlocks::Runner.new(options).run_files specs
-
-        parsed_results = StartingBlocks::Publisher.result_parser.parse(results)
-        if parsed_results[:failures] > 0 || parsed_results[:skips] > 0 || parsed_results[:errors] > 0
-          @last_failed_run = specs
-        else
-          @last_failed_run = []
-        end
+        store_the_specs_if_they_failed results, specs
       end
 
       def delete_it(file_that_changed, all_files, options)
@@ -54,16 +48,23 @@ module StartingBlocks
 
       private
 
+      def store_the_specs_if_they_failed results, specs
+        parsed_results = StartingBlocks::Publisher.result_parser.parse(results)
+        if parsed_results[:failures] > 0 || parsed_results[:skips] > 0 || parsed_results[:errors] > 0
+          @last_failed_run = specs
+        else
+          @last_failed_run = nil
+        end
+      rescue
+      end
+
       def get_the_specs_to_run(file_that_changed, all_files)
         filename = flush_file_name file_that_changed
         matches = all_files.select { |x| flush_file_name(x).include?(filename) && x != file_that_changed }
         matches << file_that_changed
-        specs = matches.select { |x| is_a_test_file?(x) && File.file?(x) }.map { |x| File.expand_path x }
 
-        if @last_failed_run
-          specs = @last_failed_run + specs
-          specs.flatten
-        end
+        specs = matches.select { |x| is_a_test_file?(x) && File.file?(x) }.map { |x| File.expand_path x }
+        specs = (@last_failed_run + specs).flatten if @last_failed_run
 
         specs
       end
