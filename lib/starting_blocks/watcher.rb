@@ -5,6 +5,8 @@ module StartingBlocks
 
     TEST_FILE_CLUES = ["_test", "test_", "_spec"]
 
+    @last_failed_run = nil
+
     include Displayable
 
     class << self
@@ -34,7 +36,14 @@ module StartingBlocks
       def run_it(file_that_changed, all_files, options)
         specs = get_the_specs_to_run file_that_changed, all_files
         display "Matches: #{specs.inspect}"
-        StartingBlocks::Runner.new(options).run_files specs
+        results = StartingBlocks::Runner.new(options).run_files specs
+
+        parsed_results = StartingBlocks::Publisher.result_parser.parse(results)
+        if parsed_results[:failures] > 0 || parsed_results[:skips] > 0 || parsed_results[:errors] > 0
+          @last_failed_run = specs
+        else
+          @last_failed_run = []
+        end
       end
 
       def delete_it(file_that_changed, all_files, options)
@@ -50,6 +59,13 @@ module StartingBlocks
         matches = all_files.select { |x| flush_file_name(x).include?(filename) && x != file_that_changed }
         matches << file_that_changed
         specs = matches.select { |x| is_a_test_file?(x) && File.file?(x) }.map { |x| File.expand_path x }
+
+        if @last_failed_run
+          specs = @last_failed_run + specs
+          specs.flatten
+        end
+
+        specs
       end
 
       def is_a_test_file?(file)

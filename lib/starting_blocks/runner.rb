@@ -13,6 +13,7 @@ module StartingBlocks
       results = execute_these_files files
       StartingBlocks::Publisher.publish_results results
       puts results
+      results
     end
 
     private
