@@ -9,4 +9,4 @@ require_relative 'extensions/blinky'
 module StartingBlocks
   # Your code goes here...
 end
-StartingBlocks::Publisher.subscribers << StartingBlocks::Extensions::GreenOnSuccessRedOnFailure.new
+StartingBlocks::Publisher.subscribers << StartingBlocks::Extensions::BlinkyLighting.new

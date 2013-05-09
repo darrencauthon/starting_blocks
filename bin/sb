@@ -24,7 +24,7 @@ end
 if ARGV.include? '--watch'
   StartingBlocks::Watcher.start_watching Dir, options
 elsif ARGV.include? '--off'
-  StartingBlocks::Extensions::GreenOnSuccessRedOnFailure.turn_off!
+  StartingBlocks::Extensions::BlinkyLighting.turn_off!
 else
   run_all_specs options
 end

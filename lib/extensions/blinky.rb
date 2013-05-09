@@ -16,7 +16,7 @@ end
 
 module StartingBlocks
   module Extensions
-    class GreenOnSuccessRedOnFailure
+    class BlinkyLighting
 
       def initialize
         @light = Blinky.new.light
