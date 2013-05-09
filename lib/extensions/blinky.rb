@@ -22,6 +22,10 @@ module StartingBlocks
         @light = Blinky.new.light
       end
 
+      def self.turn_off!
+        Blinky.new.light.off!
+      end
+
       def receive_files_to_run files
         @spec_count = files.count
         return if files.count == 0
