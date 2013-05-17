@@ -16,15 +16,9 @@ module StartingBlocks
         puts "Listening to: #{location}"
         Listen.to!(location) do |modified, added, removed|
           return if @running
-          if modified.count > 0
-            StartingBlocks::Watcher.run_it modified[0], all_files, options
-          end
-          if added.count > 0
-            StartingBlocks::Watcher.add_it added[0], all_files, options
-          end
-          if removed.count > 0
-            StartingBlocks::Watcher.delete_it removed[0], all_files, options
-          end
+          StartingBlocks::Watcher.run_it(modified[0], all_files, options)   if modified.count > 0
+          StartingBlocks::Watcher.add_it(added[0], all_files, options)      if added.count > 0
+          StartingBlocks::Watcher.delete_it(removed[0], all_files, options) if removed.count > 0
         end
       end
 
