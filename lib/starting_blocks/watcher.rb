@@ -11,39 +11,46 @@ module StartingBlocks
 
     class << self
       def start_watching(dir, options)
+        set_up_the_runner options
+
         location = dir.getwd
         all_files = Dir['**/*']
+
         puts "Listening to: #{location}"
         Listen.to!(location) do |modified, added, removed|
-          StartingBlocks::Watcher.add_it(added[0], all_files, options)      if added.count > 0
-          StartingBlocks::Watcher.delete_it(removed[0], all_files, options) if removed.count > 0
+          StartingBlocks::Watcher.add_it(added[0], all_files)      if added.count > 0
+          StartingBlocks::Watcher.delete_it(removed[0], all_files) if removed.count > 0
           return if @running
-          StartingBlocks::Watcher.run_it(modified[0], all_files, options)   if modified.count > 0
+          StartingBlocks::Watcher.run_it(modified[0], all_files)   if modified.count > 0
         end
       end
 
-      def add_it(file_that_changed, all_files, options)
+      def add_it(file_that_changed, all_files)
         return if file_that_changed.index('.git') == 0
         display "Adding: #{file_that_changed}"
         all_files << file_that_changed
       end
 
-      def run_it(file_that_changed, all_files, options)
+      def run_it(file_that_changed, all_files)
         @running = true
         specs = get_the_specs_to_run file_that_changed, all_files
         display "Matches: #{specs.inspect}"
-        results = StartingBlocks::Runner.new(options).run_files specs
+        results = @runner.run_files specs
         store_the_specs_if_they_failed results, specs
         @running = false
       end
 
-      def delete_it(file_that_changed, all_files, options)
+      def delete_it(file_that_changed, all_files)
         return if file_that_changed.index('.git') == 0
         display "Deleting: #{file_that_changed}"
         all_files.delete(file_that_changed)
       end
 
       private
+
+      def set_up_the_runner options
+        @runner = StartingBlocks::Runner.new(options)
+      end
 
       def store_the_specs_if_they_failed results, specs
         parsed_results = StartingBlocks::Publisher.result_parser.parse(results)
