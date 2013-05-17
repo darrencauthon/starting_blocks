@@ -15,10 +15,10 @@ module StartingBlocks
         all_files = Dir['**/*']
         puts "Listening to: #{location}"
         Listen.to!(location) do |modified, added, removed|
-          return if @running
-          StartingBlocks::Watcher.run_it(modified[0], all_files, options)   if modified.count > 0
           StartingBlocks::Watcher.add_it(added[0], all_files, options)      if added.count > 0
           StartingBlocks::Watcher.delete_it(removed[0], all_files, options) if removed.count > 0
+          return if @running
+          StartingBlocks::Watcher.run_it(modified[0], all_files, options)   if modified.count > 0
         end
       end
 
