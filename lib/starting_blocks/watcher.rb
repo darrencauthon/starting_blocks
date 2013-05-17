@@ -14,26 +14,26 @@ module StartingBlocks
         set_up_the_runner options
 
         location = dir.getwd
-        all_files = Dir['**/*']
+        @all_files = Dir['**/*']
 
         puts "Listening to: #{location}"
         Listen.to!(location) do |modified, added, removed|
-          StartingBlocks::Watcher.add_it(added[0], all_files)      if added.count > 0
-          StartingBlocks::Watcher.delete_it(removed[0], all_files) if removed.count > 0
+          StartingBlocks::Watcher.add_it(added[0], @all_files)      if added.count > 0
+          StartingBlocks::Watcher.delete_it(removed[0], @all_files) if removed.count > 0
           return if @running
-          StartingBlocks::Watcher.run_it(modified[0], all_files)   if modified.count > 0
+          StartingBlocks::Watcher.run_it(modified[0], @all_files)   if modified.count > 0
         end
       end
 
       def add_it(file_that_changed, all_files)
         return if file_that_changed.index('.git') == 0
         display "Adding: #{file_that_changed}"
-        all_files << file_that_changed
+        @all_files << file_that_changed
       end
 
       def run_it(file_that_changed, all_files)
         @running = true
-        specs = get_the_specs_to_run file_that_changed, all_files
+        specs = get_the_specs_to_run file_that_changed, @all_files
         display "Matches: #{specs.inspect}"
         results = @runner.run_files specs
         store_the_specs_if_they_failed results, specs
@@ -43,7 +43,7 @@ module StartingBlocks
       def delete_it(file_that_changed, all_files)
         return if file_that_changed.index('.git') == 0
         display "Deleting: #{file_that_changed}"
-        all_files.delete(file_that_changed)
+        @all_files.delete(file_that_changed)
       end
 
       private
@@ -64,7 +64,7 @@ module StartingBlocks
 
       def get_the_specs_to_run(file_that_changed, all_files)
         filename = flush_file_name file_that_changed
-        matches = all_files.select { |x| flush_file_name(x).include?(filename) && x != file_that_changed }
+        matches = @all_files.select { |x| flush_file_name(x).include?(filename) && x != file_that_changed }
         matches << file_that_changed
 
         specs = matches.select { |x| is_a_test_file?(x) && File.file?(x) }.map { |x| File.expand_path x }
