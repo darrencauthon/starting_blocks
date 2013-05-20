@@ -11,6 +11,10 @@ if ARGV.include? '--verbose'
   options[:verbose] = true
 end
 
+if ARGV.include? '--bundler'
+  options[:bundler] = true
+end
+
 def run_all_specs options
   files = ['**/*_spec.rb*', '**/*_test.rb*', '**/test_*.rb*'].map do |d|
     Dir[d].

@@ -5,6 +5,7 @@ module StartingBlocks
 
     def initialize options
       @verbose = options[:verbose]
+      @use_bundler = options[:use_bundler]
     end
 
     def run_files files
@@ -20,7 +21,11 @@ module StartingBlocks
 
     def execute_these_files files
       requires = files.map { |x| "require '#{x}'" }.join("\n")
-      `ruby -e "#{requires}"`
+      if @use_bundler
+        `bundle exec ruby -e "#{requires}"`
+      else
+        `ruby -e "#{requires}"`
+      end
     end
   end
 end
