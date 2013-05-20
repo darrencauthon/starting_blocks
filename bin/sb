@@ -12,7 +12,7 @@ if ARGV.include? '--verbose'
 end
 
 if ARGV.include? '--bundler'
-  options[:bundler] = true
+  options[:use_bundler] = true
 end
 
 def run_all_specs options
