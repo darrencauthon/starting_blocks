@@ -4,7 +4,7 @@ module StartingBlocks
       attr_accessor :commands
 
       def appropriate_command_for options
-        @commands.map { |x| x.new }.
+        @commands.map { |x| x.new(options) }.
           select { |command| command.valid? }.
           first
       end
