@@ -9,9 +9,9 @@ option_builder = StartingBlocks::OptionBuilder.new
 options = option_builder.build ARGV
 
 if options[:watch]
-  StartingBlocks::Watcher.start_watching Dir, options
+  StartingBlocks::WatchCommand.new(options).execute
 elsif options[:turn_light_off]
-  StartingBlocks::Extensions::BlinkyLighting.turn_off!
+  StartingBlocks::TurnOffLightCommand.new(options).execute
 else
   StartingBlocks::RunEverythingCommand.new(options).execute
 end
