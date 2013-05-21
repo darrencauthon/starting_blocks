@@ -5,6 +5,16 @@ describe StartingBlocks::WatchCommand do
     StartingBlocks::WatchCommand.new(Object.new).is_a? StartingBlocks::Command
   end
 
+  describe "valid?" do
+    it "should be valid when watch option set" do
+      StartingBlocks::WatchCommand.new( { watch: true } ).valid?.must_equal true
+    end
+
+    it "should not be valid when watch option not set" do
+      StartingBlocks::WatchCommand.new( { watch: false } ).valid?.must_equal false
+    end
+  end
+
   describe "execute" do
     it "should start a watcher against options and Dir" do
       options = Object.new
