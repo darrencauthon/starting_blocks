@@ -1,0 +1,41 @@
+require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+
+class AppleCommand
+end
+
+class OrangeCommand
+end
+
+class BananaCommand
+end
+
+describe StartingBlocks::Command do
+  let(:options) { {} }
+  describe "#appropriate_command_for" do
+    describe "no commands" do
+      it "should return nothing" do
+        StartingBlocks::Command.commands = []
+        command = StartingBlocks::Command.appropriate_command_for options
+        command.nil?.must_equal true
+      end
+    end
+
+    [AppleCommand, OrangeCommand, BananaCommand].each do |valid_command|
+      describe "one valid and two invalid commands" do
+        let(:commands) { [AppleCommand, OrangeCommand, BananaCommand] }
+
+        before do
+          AppleCommand.any_instance.stubs(:valid?).returns(valid_command == AppleCommand)
+          OrangeCommand.any_instance.stubs(:valid?).returns(valid_command == OrangeCommand)
+          BananaCommand.any_instance.stubs(:valid?).returns(valid_command == BananaCommand)
+          StartingBlocks::Command.commands = commands
+          @command = StartingBlocks::Command.appropriate_command_for options
+        end
+
+        it "should return the valid command" do
+          @command.class.must_equal valid_command
+        end
+      end
+    end
+  end
+end
