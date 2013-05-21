@@ -58,4 +58,12 @@ describe StartingBlocks::Command do
       end
     end
   end
+
+  describe "initialize" do
+    it "should set the options value" do
+      options = Object.new
+      command = StartingBlocks::Command.new(options)
+      command.options.must_be_same_as options
+    end
+  end
 end

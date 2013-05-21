@@ -1,5 +1,12 @@
 module StartingBlocks
   class Command
+
+    attr_accessor :options
+
+    def initialize options
+      @options = options
+    end
+
     class << self
       attr_accessor :commands
 
