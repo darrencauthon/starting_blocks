@@ -22,7 +22,9 @@ class BananaCommand
 end
 
 describe StartingBlocks::Command do
+
   let(:options) { { test: Object.new } }
+
   describe "#appropriate_command_for" do
     describe "no commands" do
       it "should return nothing" do
