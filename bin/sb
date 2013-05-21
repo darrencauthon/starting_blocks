@@ -2,18 +2,11 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../lib/starting_blocks.rb')
 
-options = {}
-
 def display value
 end
 
-if ARGV.include? '--verbose'
-  options[:verbose] = true
-end
-
-if ARGV.include? '--bundler'
-  options[:use_bundler] = true
-end
+option_builder = StartingBlocks::OptionBuilder.new
+options = option_builder.build ARGV
 
 def run_all_specs options
   files = ['**/*_spec.rb*', '**/*_test.rb*', '**/test_*.rb*'].map do |d|
@@ -25,9 +18,9 @@ def run_all_specs options
   StartingBlocks::Runner.new(options).run_files files
 end
 
-if ARGV.include? '--watch'
+if options[:watch]
   StartingBlocks::Watcher.start_watching Dir, options
-elsif ARGV.include? '--off'
+elsif options[:turn_light_off]
   StartingBlocks::Extensions::BlinkyLighting.turn_off!
 else
   run_all_specs options
