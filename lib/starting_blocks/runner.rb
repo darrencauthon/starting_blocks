@@ -10,6 +10,7 @@ module StartingBlocks
 
     def run_files files
       display "Files to run: #{files.inspect}"
+      files = files.select { |x| x.include?('/vendor/') == false }
       StartingBlocks::Publisher.publish_files_to_run files
       results = execute_these_files files
       StartingBlocks::Publisher.publish_results results
