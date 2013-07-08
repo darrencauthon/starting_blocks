@@ -4,9 +4,9 @@ require_relative 'starting_blocks/runner'
 require_relative 'starting_blocks/watcher'
 require_relative 'starting_blocks/result_parser'
 require_relative 'starting_blocks/publisher'
-require_relative 'extensions/blinky'
+#require_relative 'extensions/blinky'
 
 module StartingBlocks
   # Your code goes here...
 end
-StartingBlocks::Publisher.subscribers << StartingBlocks::Extensions::BlinkyLighting.new
+#StartingBlocks::Publisher.subscribers << StartingBlocks::Extensions::BlinkyLighting.new
