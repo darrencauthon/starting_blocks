@@ -1,5 +1,4 @@
 module StartingBlocks
-
   module Displayable
     module ClassMethods
       def display message
