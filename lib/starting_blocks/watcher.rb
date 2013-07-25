@@ -26,7 +26,7 @@ module StartingBlocks
       end
 
       def add_it(file_that_changed)
-        return if this_is_a_file_we_are_not_concerned_about? file_that_changed
+        return if not_concerned_about? file_that_changed
         display "Adding: #{file_that_changed}"
         @all_files << file_that_changed
       end
@@ -41,14 +41,14 @@ module StartingBlocks
       end
 
       def delete_it(file_that_changed)
-        return if this_is_a_file_we_are_not_concerned_about? file_that_changed
+        return if not_concerned_about? file_that_changed
         display "Deleting: #{file_that_changed}"
         @all_files.delete(file_that_changed)
       end
 
       private
 
-      def this_is_a_file_we_are_not_concerned_about? file
+      def not_concerned_about? file
         file.index('.git') == 0
       end
 
