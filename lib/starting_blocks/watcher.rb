@@ -26,7 +26,7 @@ module StartingBlocks
       end
 
       def add_it(file_that_changed)
-        return if this_is_a_file_we_are_not_concerned_about file_that_changed? file_that_changed
+        return if this_is_a_file_we_are_not_concerned_about? file_that_changed
         display "Adding: #{file_that_changed}"
         @all_files << file_that_changed
       end
