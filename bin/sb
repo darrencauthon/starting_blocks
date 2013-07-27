@@ -7,23 +7,13 @@ options = {}
 def display value
 end
 
-if ARGV.include? '--blinky'
-  require 'starting_blocks-blinky'
-end
+require 'starting_blocks-blinky' if ARGV.include? '--blinky'
+require 'starting_blocks-growl' if ARGV.include? '--growl'
 
-if ARGV.include? '--growl'
-  require 'starting_blocks-growl'
-end
-
-if ARGV.include? '--verbose'
-  options[:verbose] = true
-end
-
-options[:no_vendor] = ARGV.include?('--vendor') == false
-
-if Dir['Gemfile'].count > 0
-  options[:use_bundler] = true
-end
+options[:verbose]     = ARGV.include? '--verbose'
+options[:no_vendor]   = ARGV.include?('--vendor') == false
+options[:use_bundler] = Dir['Gemfile'].count > 0
+raise options.inspect
 
 def run_all_specs options
   files = ['**/*_spec.rb*', '**/*_test.rb*', '**/test_*.rb*'].map do |d|
