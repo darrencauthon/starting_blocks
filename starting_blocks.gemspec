@@ -24,5 +24,4 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "subtle"
   spec.add_development_dependency "mocha"
   spec.add_runtime_dependency 'listen', ">= 1.0"
-  #spec.add_runtime_dependency 'blinky'
 end
