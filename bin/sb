@@ -11,6 +11,10 @@ if ARGV.include? '--blinky'
   require 'starting_blocks-blinky'
 end
 
+if ARGV.include? '--growl'
+  require 'starting_blocks-growl'
+end
+
 if ARGV.include? '--verbose'
   options[:verbose] = true
 end
