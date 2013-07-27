@@ -23,7 +23,7 @@ if ARGV.include? '--no-vendor'
   options[:no_vendor] = true
 end
 
-if ARGV.include? '--bundler'
+if Dir['Gemfile'].count > 0
   options[:use_bundler] = true
 end
 
