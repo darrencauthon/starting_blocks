@@ -19,9 +19,7 @@ if ARGV.include? '--verbose'
   options[:verbose] = true
 end
 
-if ARGV.include? '--no-vendor'
-  options[:no_vendor] = true
-end
+options[:no_vendor] = ARGV.include?('--vendor') == false
 
 if Dir['Gemfile'].count > 0
   options[:use_bundler] = true
