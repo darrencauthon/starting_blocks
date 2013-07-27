@@ -13,7 +13,6 @@ require 'starting_blocks-growl' if ARGV.include? '--growl'
 options[:verbose]     = ARGV.include? '--verbose'
 options[:no_vendor]   = ARGV.include?('--vendor') == false
 options[:use_bundler] = Dir['Gemfile'].count > 0
-raise options.inspect
 
 def run_all_specs options
   files = ['**/*_spec.rb*', '**/*_test.rb*', '**/test_*.rb*'].map do |d|
