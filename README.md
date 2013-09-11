@@ -6,7 +6,7 @@ Install it yourself with:
 
     $ gem install starting_blocks
 
-If you would like to use a blinky light to show the results of your test:
+If you would like to use a blinky light to show the results of your tests:
 
     $ gem install starting_blocks-blinky
 
