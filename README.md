@@ -16,30 +16,31 @@ If you would like growl results of your tests:
 
 ## Usage
 
-Current command-line options:
+#### Current command-line options
+
+Run all of your Minitest tests and specs in your current directory and all child directories.
 
 ````
 sb
 ````
 
-Will run all MiniTest specs in your current directory and all child directories.
+Run the tests in any test or spec file after it is saved. Will also run the specs for any file that has a matching test or spec file.
 
 ````
 sb --watch
 ````
 
-Will run all MiniTest specs if they or similarly named files are edited.
+Turn your blinky light red/yellow/green based on the results of your test run.
 
 ````
 sb --blinky
 ````
 
-Will turn your blinky light red/yellow/green based on the results of your test run.
+Pop a growl message based on the test results.
 
 ````
 sb --growl
 ````
 
-Will pop a growl message based on the test results.
 
 
