@@ -34,7 +34,7 @@ Run the tests in any test or spec file after it is saved. Will also run the spec
 sb --watch
 ````
 
-Turn your blinky light red/yellow/green based on the results of your test run:
+Turn your [blinky light](https://github.com/perryn/blinky) red/yellow/green based on the results of your test run:
 
 ````
 sb --blinky
@@ -58,7 +58,7 @@ Install it yourself with:
 
     $ gem install starting_blocks
 
-If you would like to use a blinky light to show the results of your tests:
+If you would like to use a [blinky light](https://github.com/perryn/blinky) to show the results of your tests:
 
     $ gem install starting_blocks-blinky
 
