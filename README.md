@@ -2,17 +2,17 @@
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-    gem 'starting_blocks'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
+Install it yourself with:
 
     $ gem install starting_blocks
+
+If you would like to use a blinky light to show the results of your test:
+
+    $ gem install starting_blocks-blinky
+
+If you would like growl results of your tests:
+
+    $ gem install starting_blocks-growl
 
 ## Usage
 
@@ -29,3 +29,17 @@ sb --watch
 ````
 
 Will run all MiniTest specs if they or similarly named files are edited.
+
+````
+sb --blinky
+````
+
+Will turn your blinky light red/yellow/green based on the results of your test run.
+
+````
+sb --growl
+````
+
+Will pop a growl message based on the test results.
+
+
