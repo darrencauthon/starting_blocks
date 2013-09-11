@@ -1,18 +1,24 @@
 # Starting Blocks
 
-## Installation
+## Why?
 
-Install it yourself with:
+The purpose of this gem is to run my Minitest specs, with no hassle. No Rakefile updates, no Gemfile/gemspec installs, and no regex Guard files.
 
-    $ gem install starting_blocks
+Just. Run. The. Tests.
 
-If you would like to use a blinky light to show the results of your tests:
+Install the gem. Type "sb" in your command line.  All of the tests in your current directory are run. 
 
-    $ gem install starting_blocks-blinky
+## What tests, though?
 
-If you would like growl results of your tests:
+Starting Blocks runs all files that have a "test" or "spec" prefix or suffix.  Like:
 
-    $ gem install starting_blocks-growl
+* spec_apple.rb
+* apple_spec.rb
+* test_orange.rb
+* orange_test.rb
+
+It also looks for matches between "non-test" files and spec files.  So if "apple.rb" is updated and "apple_spec.rb" exists, Starting Blocks will run the "apple_spec.rb" tests.
+
 
 ## Usage
 
@@ -40,5 +46,22 @@ Pop a growl message based on the test results:
 sb --growl
 ````
 
+Run the tests with all of the options listed above:
 
+````
+sb --growl --blinky --watch
+````
 
+## Installation
+
+Install it yourself with:
+
+    $ gem install starting_blocks
+
+If you would like to use a blinky light to show the results of your tests:
+
+    $ gem install starting_blocks-blinky
+
+If you would like growl results of your tests:
+
+    $ gem install starting_blocks-growl
