@@ -16,8 +16,6 @@ If you would like growl results of your tests:
 
 ## Usage
 
-#### Current command-line options
-
 Run all of your Minitest tests and specs in your current directory and all child directories:
 
 ````
