@@ -1,6 +1,7 @@
 # Starting Blocks
 
 [![Build Status](https://travis-ci.org/darrencauthon/starting_blocks.png?branch=master)](https://travis-ci.org/darrencauthon/starting_blocks)
+[![Code Climate](https://codeclimate.com/github/darrencauthon/starting_blocks.png)](https://codeclimate.com/github/darrencauthon/starting_blocks)
 
 ## Why?
 
