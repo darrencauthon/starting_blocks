@@ -1,5 +1,7 @@
 # Starting Blocks
 
+[![Build Status](https://travis-ci.org/darrencauthon/starting_blocks.png?branch=master)](https://travis-ci.org/darrencauthon/starting_blocks)
+
 ## Why?
 
 The purpose of this gem is to run my Minitest specs, with no hassle. No Rakefile updates, no Gemfile/gemspec installs, and no regex Guard files.
