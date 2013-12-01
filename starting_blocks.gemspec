@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["darren@cauthon.com"]
   spec.description   = %q{Faster minitest TDD.}
   spec.summary       = %q{One command to run all tests, test watcher, etc.}
-  spec.homepage      = ""
+  spec.homepage      = "http://www.github.com/darrencauthon/starting_blocks"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
