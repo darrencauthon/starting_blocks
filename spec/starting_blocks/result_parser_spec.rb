@@ -83,4 +83,33 @@ EOF
       subject.parse(text).contrast_with! expected_results
     end
   end
+
+  describe "simple case, minitest 5.0" do
+    let(:text) do <<EOF
+Fabulous run in 0.000372s, 2688.1720 runs/s, 2688.1720 assertions/s.
+
+2 runs, 3 assertions, 4 failures, 5 errors, 6 skips
+
+asldkjflaskjflsakj
+EOF
+    end
+
+    let(:expected_results) do
+      {
+        tests: 2,
+        assertions: 3,
+        failures: 4,
+        errors: 5,
+        skips: 6
+      }
+    end
+
+    def subject
+      StartingBlocks::ResultParser.new
+    end
+
+    it "should return the counts" do
+      subject.parse(text).contrast_with! expected_results
+    end
+  end
 end

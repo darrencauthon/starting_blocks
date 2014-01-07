@@ -1,8 +1,10 @@
 module StartingBlocks
   class ResultParser
     def parse(text)
+      test_count = get_count_of('tests', text)
+      test_count = get_count_of('runs', text) if test_count == 0
       {
-        tests: get_count_of('tests', text),
+        tests: test_count,
         assertions: get_count_of('assertions', text),
         failures: get_count_of('failures', text),
         errors: get_count_of('errors', text),
