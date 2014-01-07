@@ -1,18 +1,24 @@
 module StartingBlocks
   class ResultParser
     def parse(text)
+      @text = text
       {
-        tests: greater_of([get_count_of('tests', text),
-                           get_count_of('runs',  text)]),
-        assertions: get_count_of('assertions', text),
-        failures: get_count_of('failures', text),
-        errors: get_count_of('errors', text),
-        skips: get_count_of('skips', text)
+        tests:      greater_of([tests, runs]),
+        assertions: assertions,
+        failures:   failures,
+        errors:     errors,
+        skips:      skips
       }
     end
 
-    def get_count_of name, text
-      text.scan(/(\d+ #{name})/)[-1][0].split(' ')[0].to_i
+    private
+
+    def method_missing(meth, *args, &blk)
+      get_count_of meth.to_s
+    end
+
+    def get_count_of name
+      @text.scan(/(\d+ #{name})/)[-1][0].split(' ')[0].to_i
     rescue
       0
     end
