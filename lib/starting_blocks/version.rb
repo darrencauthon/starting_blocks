@@ -1,3 +1,3 @@
 module StartingBlocks
-  VERSION = "0.0.32"
+  VERSION = "0.1.0"
 end
