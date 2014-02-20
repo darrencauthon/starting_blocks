@@ -9,6 +9,7 @@ end
 
 require 'starting_blocks-blinky' if ARGV.include? '--blinky'
 require 'starting_blocks-growl' if ARGV.include? '--growl'
+require 'starting_blocks-stopplicht' if ARGV.include? '--stopplicht'
 
 options[:verbose]     = ARGV.include? '--verbose'
 options[:no_vendor]   = ARGV.include?('--vendor') == false
