@@ -2,19 +2,20 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe StartingBlocks::ResultParser do
 
-  it "should return the result from the text parser" do
+  let(:parsed_output) { {} }
 
-    text          = Object.new
-    parsed_output = Hash.new
-    text_parser   = Object.new
+  let(:output) do
+    text        = Object.new
+    text_parser = Object.new
 
     StartingBlocks::ResultTextParser.stubs(:new).returns text_parser
     text_parser.stubs(:parse).with(text).returns parsed_output
 
-    output = StartingBlocks::ResultParser.new.parse text
+    StartingBlocks::ResultParser.new.parse text
+  end
 
+  it "should return the result from the text parser" do
     output.must_be_same_as parsed_output
-      
   end
 
 end
