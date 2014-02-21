@@ -18,4 +18,13 @@ describe StartingBlocks::ResultParser do
     output.must_be_same_as parsed_output
   end
 
+  describe "different output scenarios" do
+
+    it "should set the color to red if there are no tests" do
+      parsed_output[:tests] = 0
+      output[:color].must_equal :red
+    end
+
+  end
+
 end
