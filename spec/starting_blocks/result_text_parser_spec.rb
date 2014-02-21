@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe StartingBlocks::ResultParser do
+describe StartingBlocks::ResultTextParser do
   describe "simple case" do
     let(:text) do <<EOF
 Fabulous tests in 0.000372s, 2688.1720 tests/s, 2688.1720 assertions/s.
@@ -22,7 +22,7 @@ EOF
     end
 
     def subject
-      StartingBlocks::ResultParser.new
+      StartingBlocks::ResultTextParser.new
     end
 
     it "should return the counts" do
@@ -49,7 +49,7 @@ EOF
     end
 
     def subject
-      StartingBlocks::ResultParser.new
+      StartingBlocks::ResultTextParser.new
     end
 
     it "should return the counts" do
@@ -76,7 +76,7 @@ EOF
     end
 
     def subject
-      StartingBlocks::ResultParser.new
+      StartingBlocks::ResultTextParser.new
     end
 
     it "should return the counts" do
@@ -105,7 +105,7 @@ EOF
     end
 
     def subject
-      StartingBlocks::ResultParser.new
+      StartingBlocks::ResultTextParser.new
     end
 
     it "should return the counts" do

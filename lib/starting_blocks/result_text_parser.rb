@@ -1,5 +1,5 @@
 module StartingBlocks
-  class ResultParser
+  class ResultTextParser
     def parse(text)
       @text = text
       {

@@ -27,4 +27,4 @@ module StartingBlocks
   end
 end
 StartingBlocks::Publisher.subscribers = []
-StartingBlocks::Publisher.result_parser = StartingBlocks::ResultParser.new
+StartingBlocks::Publisher.result_parser = StartingBlocks::ResultTextParser.new
