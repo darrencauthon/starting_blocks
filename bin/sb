@@ -8,6 +8,13 @@ def display value
 end
 
 arguments = ARGV
+config_file = File.expand_path('~/.sb')
+
+if File.exists?(config_file)
+  additional_arguments = File.read(config_file).split(' ')
+  arguments += additional_arguments
+end
+
 require 'starting_blocks-blinky' if arguments.include? '--blinky'
 require 'starting_blocks-growl' if arguments.include? '--growl'
 require 'starting_blocks-stopplicht' if arguments.include? '--stopplicht'
