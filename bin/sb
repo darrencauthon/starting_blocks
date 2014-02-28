@@ -30,5 +30,10 @@ if ARGV.include? '--watch'
 elsif ARGV.include? '--off'
   StartingBlocks::Extensions::BlinkyLighting.turn_off!
 else
-  run_all_specs options
+  results = run_all_specs options
+
+  parsed_results = StartingBlocks::Publisher.result_parser.parse(results)
+  success = parsed_results[:color] == :green
+
+  exit success
 end
