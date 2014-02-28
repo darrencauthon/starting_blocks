@@ -27,6 +27,7 @@ end
 
 if ARGV.include? '--watch'
   StartingBlocks::Watcher.start_watching Dir, options
+  sleep
 elsif ARGV.include? '--off'
   StartingBlocks::Extensions::BlinkyLighting.turn_off!
 else
