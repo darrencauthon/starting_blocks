@@ -17,12 +17,15 @@ module StartingBlocks
         @all_files = Dir['**/*']
 
         puts "Listening to: #{location}"
-        Listen.to!(location) do |modified, added, removed|
-          StartingBlocks::Watcher.add_it(added[0])      if added.count > 0
-          StartingBlocks::Watcher.delete_it(removed[0]) if removed.count > 0
-          return if @running
-          StartingBlocks::Watcher.run_it(modified[0])   if modified.count > 0
-        end
+
+        callback = Proc.new do |modified, added, removed|
+                     StartingBlocks::Watcher.add_it(added[0])      if added.count > 0
+                     StartingBlocks::Watcher.delete_it(removed[0]) if removed.count > 0
+                     next if @running
+                     StartingBlocks::Watcher.run_it(modified[0])   if modified.count > 0
+                   end
+
+        ::Listen.to location, &callback
       end
 
       def add_it(file_that_changed)
