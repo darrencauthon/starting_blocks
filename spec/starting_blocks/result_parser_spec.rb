@@ -1,115 +1,73 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe StartingBlocks::ResultParser do
-  describe "simple case" do
-    let(:text) do <<EOF
-Fabulous tests in 0.000372s, 2688.1720 tests/s, 2688.1720 assertions/s.
 
-2 tests, 3 assertions, 4 failures, 5 errors, 6 skips
+  let(:parsed_output) { {} }
 
-asldkjflaskjflsakj
-EOF
-    end
+  let(:output) do
+    text        = Object.new
+    text_parser = Object.new
 
-    let(:expected_results) do
-      {
-        tests: 2,
-        assertions: 3,
-        failures: 4,
-        errors: 5,
-        skips: 6
-      }
-    end
+    StartingBlocks::ResultTextParser.stubs(:new).returns text_parser
+    text_parser.stubs(:parse).with(text).returns parsed_output
 
-    def subject
-      StartingBlocks::ResultParser.new
-    end
-
-    it "should return the counts" do
-      subject.parse(text).contrast_with! expected_results
-    end
+    StartingBlocks::ResultParser.new.parse text
   end
 
-  describe "another case" do
-    let(:text) do <<EOF
-aaaaa
-801 tests, 30014 assertions, 432 failures, 234 errors, 2141 skips
-bbbbbb
-EOF
-    end
-
-    let(:expected_results) do
-      {
-        tests: 801,
-        assertions: 30014,
-        failures: 432,
-        errors: 234,
-        skips: 2141
-      }
-    end
-
-    def subject
-      StartingBlocks::ResultParser.new
-    end
-
-    it "should return the counts" do
-      subject.parse(text).contrast_with! expected_results
-    end
+  it "should return the result from the text parser" do
+    output.must_be_same_as parsed_output
   end
 
-  describe "unparsable text" do
-    let(:text) do <<EOF
-aaaaa
-lkjsdlfkjslkjslkjalskjfsalkjfd
-bbbbbb
-EOF
+  describe "different output scenarios" do
+
+    [:tests, :skips].to_objects {[
+      [9, 1], [10, 2], [10, 3]
+    ]}.each do |test|
+      describe "yellow" do
+        it "should have tests and skips" do
+          parsed_output[:tests] = test.tests
+          parsed_output[:skips] = test.skips
+          output[:color].must_equal :yellow
+        end
+      end
     end
 
-    let(:expected_results) do
-      {
-        tests: 0,
-        assertions: 0,
-        failures: 0,
-        errors: 0,
-        skips: 0
-      }
+    [:tests, :failures, :errors, :skips].to_objects {[
+      [1, 1,   nil, nil],
+      [2, nil, 1,   nil],
+      [3, nil, 2,   0],
+      [4, 3,   nil, 0],
+    ]}.each do |test|
+      describe "red" do
+        it "should return red" do
+          parsed_output[:tests]    = test.tests
+          parsed_output[:failures] = test.failures
+          parsed_output[:errors]   = test.errors
+          parsed_output[:skips]    = test.skips
+          output[:color].must_equal :red
+        end
+      end
     end
 
-    def subject
-      StartingBlocks::ResultParser.new
+    [:tests, :failures, :errors, :skips].to_objects {[
+      [1, nil, nil, nil],
+      [2, 0,   nil, nil],
+      [3, nil, 0,   nil],
+      [4, nil, nil, 0],
+    ]}.each do |test|
+
+      describe "green" do
+        it "should set the color to red if there are tests and failures" do
+          parsed_output[:tests]    = test.tests
+          parsed_output[:failures] = test.failures
+          parsed_output[:errors]   = test.errors
+          parsed_output[:skips]    = test.skips
+          output[:color].must_equal :green
+        end
+      end
+
     end
 
-    it "should return the counts" do
-      subject.parse(text).contrast_with! expected_results
-    end
   end
 
-  describe "simple case, minitest 5.0" do
-    let(:text) do <<EOF
-Fabulous run in 0.000372s, 2688.1720 runs/s, 2688.1720 assertions/s.
-
-2 runs, 3 assertions, 4 failures, 5 errors, 6 skips
-
-asldkjflaskjflsakj
-EOF
-    end
-
-    let(:expected_results) do
-      {
-        tests: 2,
-        assertions: 3,
-        failures: 4,
-        errors: 5,
-        skips: 6
-      }
-    end
-
-    def subject
-      StartingBlocks::ResultParser.new
-    end
-
-    it "should return the counts" do
-      subject.parse(text).contrast_with! expected_results
-    end
-  end
 end

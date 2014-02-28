@@ -1,31 +1,35 @@
 module StartingBlocks
   class ResultParser
-    def parse(text)
-      @text = text
-      {
-        tests:      greater_of([tests, runs]),
-        assertions: assertions,
-        failures:   failures,
-        errors:     errors,
-        skips:      skips
-      }
+
+    def parse text
+      output = load_the_output_from text
+      output[:color] = color
+      output
     end
 
     private
 
-    def method_missing(meth, *args, &blk)
-      get_count_of meth.to_s
+    def color
+      return :red unless tests_exist?
+      return :red if problems_exist?
+      return :yellow if skips_exist?
+      :green
     end
 
-    def get_count_of name
-      @text.scan(/(\d+ #{name})/)[-1][0].split(' ')[0].to_i
-    rescue
-      0
+    def load_the_output_from text
+      @output = StartingBlocks::ResultTextParser.new.parse text
     end
 
-    def greater_of values
-      values.sort_by { |x| x }.last
+    def tests_exist?
+      (@output[:tests] || 0) > 0
+    end
+
+    def problems_exist?
+      ((@output[:errors] || 0) > 0) or ((@output[:failures] || 0) > 0)
+    end
+
+    def skips_exist?
+      (@output[:skips] || 0) > 0
     end
   end
 end
-
