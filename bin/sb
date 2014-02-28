@@ -7,12 +7,20 @@ options = {}
 def display value
 end
 
-require 'starting_blocks-blinky' if ARGV.include? '--blinky'
-require 'starting_blocks-growl' if ARGV.include? '--growl'
-require 'starting_blocks-stopplicht' if ARGV.include? '--stopplicht'
+arguments = ARGV
+config_file = File.expand_path('~/.sb')
 
-options[:verbose]     = ARGV.include? '--verbose'
-options[:no_vendor]   = ARGV.include?('--vendor') == false
+if File.exists?(config_file)
+  additional_arguments = File.read(config_file).split(' ')
+  arguments += additional_arguments
+end
+
+require 'starting_blocks-blinky' if arguments.include? '--blinky'
+require 'starting_blocks-growl' if arguments.include? '--growl'
+require 'starting_blocks-stopplicht' if arguments.include? '--stopplicht'
+
+options[:verbose]     = arguments.include? '--verbose'
+options[:no_vendor]   = arguments.include?('--vendor') == false
 options[:use_bundler] = Dir['Gemfile'].count > 0
 
 def run_all_specs options
@@ -25,10 +33,10 @@ def run_all_specs options
   StartingBlocks::Runner.new(options).run_files files
 end
 
-if ARGV.include? '--watch'
+if arguments.include? '--watch'
   StartingBlocks::Watcher.start_watching Dir, options
   sleep
-elsif ARGV.include? '--off'
+elsif arguments.include? '--off'
   StartingBlocks::Extensions::BlinkyLighting.turn_off!
 else
   results = run_all_specs options
