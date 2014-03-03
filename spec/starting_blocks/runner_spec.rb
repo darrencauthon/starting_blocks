@@ -9,7 +9,7 @@ describe StartingBlocks::Runner do
     let(:results) { Object.new }
 
     before do
-      runner.expects(:display).with('Files to run: ["test.rb"]')
+      StartingBlocks.expects(:display).with('Files to run: ["test.rb"]')
       runner.expects(:execute_these_files).with(files).returns results
       StartingBlocks::Publisher.expects(:publish_files_to_run).with files
       StartingBlocks::Publisher.expects(:publish_results).with results
@@ -44,7 +44,7 @@ describe StartingBlocks::Runner do
     let(:results) { Object.new }
 
     before do
-      runner.expects(:display).with('Files to run: ["test1.rb", "test2.rb"]')
+      StartingBlocks.expects(:display).with('Files to run: ["test1.rb", "test2.rb"]')
       runner.expects(:execute_these_files).with(files).returns results
       StartingBlocks::Publisher.expects(:publish_files_to_run).with files
       StartingBlocks::Publisher.expects(:publish_results).with results
@@ -82,7 +82,7 @@ describe StartingBlocks::Runner do
     let(:files_without_vendor) { ['test1.rb', 'test2.rb'] }
 
     before do
-      runner.expects(:display).with('Files to run: ["test1.rb", "test2.rb"]')
+      StartingBlocks.expects(:display).with('Files to run: ["test1.rb", "test2.rb"]')
       runner.expects(:execute_these_files).with(files_without_vendor).returns results
       StartingBlocks::Publisher.expects(:publish_files_to_run).with files_without_vendor
       StartingBlocks::Publisher.expects(:publish_results).with results

@@ -19,7 +19,7 @@ require 'starting_blocks-blinky' if arguments.include? '--blinky'
 require 'starting_blocks-growl' if arguments.include? '--growl'
 require 'starting_blocks-stopplicht' if arguments.include? '--stopplicht'
 
-options[:verbose]     = arguments.include? '--verbose'
+StartingBlocks.verbose = arguments.include? '--verbose'
 options[:no_vendor]   = arguments.include?('--vendor') == false
 options[:use_bundler] = Dir['Gemfile'].count > 0
 
