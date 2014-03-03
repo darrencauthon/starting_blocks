@@ -36,7 +36,10 @@ if arguments.include? '--watch'
   StartingBlocks.display "Going to sleep, waiting for changes"
   listener.start
   loop do
-    sleep(5)
+    user_input = STDIN.gets
+    if user_input == "stop\n"
+      exit
+    end
   end
 elsif arguments.include? '--off'
   StartingBlocks::Extensions::BlinkyLighting.turn_off!
