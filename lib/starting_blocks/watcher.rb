@@ -9,6 +9,7 @@ module StartingBlocks
 
     class << self
       def start_watching(dir, options)
+        StartingBlocks.display("Start watching #{dir.getwd} with #{options.inspect}")
         set_up_the_runner options
 
         location = dir.getwd
