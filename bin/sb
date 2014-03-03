@@ -31,7 +31,9 @@ def run_all_specs options
 end
 
 if arguments.include? '--watch'
-  StartingBlocks::Watcher.start_watching Dir, options
+  listener = StartingBlocks::Watcher.start_watching Dir, options
+  StartingBlocks.display "Going to sleep, waiting for changes"
+  listener.start
   sleep
 elsif arguments.include? '--off'
   StartingBlocks::Extensions::BlinkyLighting.turn_off!
