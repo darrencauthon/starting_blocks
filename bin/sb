@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
-require File.expand_path(File.dirname(__FILE__) + '/../lib/starting_blocks.rb')
+#require File.expand_path(File.dirname(__FILE__) + '/../lib/starting_blocks.rb')
+require 'starting_blocks'
 
 options = {}
 
