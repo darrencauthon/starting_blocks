@@ -4,9 +4,6 @@ require File.expand_path(File.dirname(__FILE__) + '/../lib/starting_blocks.rb')
 
 options = {}
 
-def display value
-end
-
 arguments = ARGV
 config_file = File.expand_path('~/.sb')
 
