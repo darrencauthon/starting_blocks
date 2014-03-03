@@ -25,7 +25,7 @@ module StartingBlocks
                      StartingBlocks::Watcher.run_it(modified[0])   if modified.count > 0
                    end
 
-        ::Listen.to location, &callback
+        ::Listen::Listener.new location, &callback
       end
 
       def add_it(file_that_changed)
