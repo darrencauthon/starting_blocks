@@ -34,6 +34,9 @@ end
 if arguments.include? '--watch'
   listener = StartingBlocks::Watcher.start_watching Dir, options
   StartingBlocks.display "Going to sleep, waiting for changes"
+
+  puts 'Enter "stop" to stop the listener'
+
   listener.start
   loop do
     user_input = STDIN.gets
