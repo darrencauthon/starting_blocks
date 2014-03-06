@@ -24,41 +24,34 @@ run_all_specs = ->(options) do
                      StartingBlocks::Runner.new(options).run_files files
                    end
 
-watch = -> do
-             listener = StartingBlocks::Watcher.start_watching Dir, options
-             StartingBlocks.display "Going to sleep, waiting for changes"
+name_of_action_to_take = [:watch, :off].select { |x| arguments.include? "--#{x}" }.first || :run_all_tests
 
-             puts 'Enter "stop" to stop the listener'
+actions = {
+            watch: -> do
+                        listener = StartingBlocks::Watcher.start_watching Dir, options
+                        StartingBlocks.display "Going to sleep, waiting for changes"
 
-             listener.start
-             loop do
-               user_input = STDIN.gets
-               if user_input == "stop\n"
-                 exit
-               end
-             end
-           end
+                        puts 'Enter "stop" to stop the listener'
 
-off = -> do
-           StartingBlocks::Extensions::BlinkyLighting.turn_off!
-         end
+                        listener.start
+                        loop do
+                          user_input = STDIN.gets
+                          if user_input == "stop\n"
+                            exit
+                          end
+                        end
+                      end,
+            run_all_tests: -> do
+                                results = run_all_specs.call(options)
 
-run_all_tests = -> do
-                     results = run_all_specs.call(options)
+                                parsed_results = StartingBlocks::Publisher.result_parser.parse(results)
+                                success = parsed_results[:color] == :green
 
-                     parsed_results = StartingBlocks::Publisher.result_parser.parse(results)
-                     success = parsed_results[:color] == :green
+                                exit success
+                              end,
+            off: -> do
+                      StartingBlocks::Extensions::BlinkyLighting.turn_off!
+                    end
+          }
 
-                     exit success
-                   end
-
-action_to_take = [:watch, :off].select { |x| arguments.include? "--#{x}" }.first || :run_all_tests
-
-case action_to_take
-when :watch
-  watch.call
-when :off
-  off.call
-when :run_all_tests
-  run_all_tests.call
-end
+actions[name_of_action_to_take].call
