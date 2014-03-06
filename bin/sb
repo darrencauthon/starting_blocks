@@ -24,8 +24,6 @@ run_all_specs = ->(options) do
                      StartingBlocks::Runner.new(options).run_files files
                    end
 
-name_of_action_to_take = [:watch, :off].select { |x| arguments.include? "--#{x}" }.first || :run_all_tests
-
 actions = {
             watch: -> do
                         listener = StartingBlocks::Watcher.start_watching Dir, options
@@ -53,5 +51,7 @@ actions = {
                       StartingBlocks::Extensions::BlinkyLighting.turn_off!
                     end
           }
+
+name_of_action_to_take = [:watch, :off].select { |x| arguments.include? "--#{x}" }.first || :run_all_tests
 
 actions[name_of_action_to_take].call
