@@ -3,12 +3,14 @@ module StartingBlocks
     def self.run
       arguments = [ARGV, (File.exists?(File.expand_path('~/.sb')) ? File.read(File.expand_path('~/.sb')).split(' ') : [])].flatten
 
-      [:blinky, :growl, :stopplicht].each { |p| require "starting_blocks-#{p}" if arguments.include? "--#{p}" }
+      [:blinky, :growl, :stopplicht].each { |p| require "starting_blocks-#{p}" if arguments.include? p }
 
-      StartingBlocks.verbose = arguments.include? '--verbose'
+      arguments = arguments.map { |x| x.gsub('--', '').to_sym }
+
+      StartingBlocks.verbose = arguments.include? :verbose
 
       options = {
-                  no_vendor:   (arguments.include?('--vendor') == false),
+                  no_vendor:   (arguments.include?(:vendor) == false),
                   use_bundler: (Dir['Gemfile'].count > 0)
                 }
 
@@ -50,7 +52,7 @@ module StartingBlocks
                           end
                 }
 
-      name_of_action_to_take = [:watch, :off].select { |x| arguments.include? "--#{x}" }.first || :run_all_tests
+      name_of_action_to_take = [:watch, :off].select { |x| arguments.include? x }.first || :run_all_tests
 
       actions[name_of_action_to_take].call
     end
