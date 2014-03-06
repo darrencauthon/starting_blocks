@@ -24,7 +24,10 @@ run_all_specs = ->(options) do
                      StartingBlocks::Runner.new(options).run_files files
                    end
 
-if arguments.include? '--watch'
+action_to_take = [:watch, :off].select { |x| arguments.include? "--#{x}" }.first || :run_all_tests
+
+case action_to_take
+when :watch
   listener = StartingBlocks::Watcher.start_watching Dir, options
   StartingBlocks.display "Going to sleep, waiting for changes"
 
@@ -37,9 +40,9 @@ if arguments.include? '--watch'
       exit
     end
   end
-elsif arguments.include? '--off'
+when :off
   StartingBlocks::Extensions::BlinkyLighting.turn_off!
-else
+when :run_all_tests
   results = run_all_specs.call(options)
 
   parsed_results = StartingBlocks::Publisher.result_parser.parse(results)
