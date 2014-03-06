@@ -14,15 +14,15 @@ options = {
             use_bundler: (Dir['Gemfile'].count > 0)
           }
 
-def run_all_specs options
-  files = ['**/*_spec.rb*', '**/*_test.rb*', '**/test_*.rb*'].map do |d|
-    Dir[d].
-      select { |f| File.file?(f) }.
-      map    { |x| File.expand_path(x) }
-  end.flatten
+run_all_specs = ->(options) do
+                     files = ['**/*_spec.rb*', '**/*_test.rb*', '**/test_*.rb*'].map do |d|
+                       Dir[d].
+                         select { |f| File.file?(f) }.
+                         map    { |x| File.expand_path(x) }
+                     end.flatten
 
-  StartingBlocks::Runner.new(options).run_files files
-end
+                     StartingBlocks::Runner.new(options).run_files files
+                   end
 
 if arguments.include? '--watch'
   listener = StartingBlocks::Watcher.start_watching Dir, options
@@ -40,7 +40,7 @@ if arguments.include? '--watch'
 elsif arguments.include? '--off'
   StartingBlocks::Extensions::BlinkyLighting.turn_off!
 else
-  results = run_all_specs options
+  results = run_all_specs.call(options)
 
   parsed_results = StartingBlocks::Publisher.result_parser.parse(results)
   success = parsed_results[:color] == :green
