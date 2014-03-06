@@ -3,15 +3,16 @@
 #require File.expand_path(File.dirname(__FILE__) + '/../lib/starting_blocks.rb')
 require 'starting_blocks'
 
-options = {}
-
 arguments = [ARGV, (File.exists?(File.expand_path('~/.sb')) ? File.read(File.expand_path('~/.sb')).split(' ') : [])].flatten
 
 [:blinky, :growl, :stopplicht].each { |p| require "starting_blocks-#{p}" if arguments.include? "--#{p}" }
 
 StartingBlocks.verbose = arguments.include? '--verbose'
-options[:no_vendor]   = arguments.include?('--vendor') == false
-options[:use_bundler] = Dir['Gemfile'].count > 0
+
+options = {
+            no_vendor:   (arguments.include?('--vendor') == false),
+            use_bundler: (Dir['Gemfile'].count > 0)
+          }
 
 def run_all_specs options
   files = ['**/*_spec.rb*', '**/*_test.rb*', '**/test_*.rb*'].map do |d|
