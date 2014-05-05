@@ -36,12 +36,15 @@ if arguments.include? '--watch'
   StartingBlocks.display "Going to sleep, waiting for changes"
 
   puts 'Enter "stop" to stop the listener'
+  puts 'Enter a blank line to run all of the tests'
 
   listener.start
   loop do
     user_input = STDIN.gets
     if user_input == "stop\n"
       exit
+    elsif user_input == "\n"
+      run_all_specs options
     end
   end
 elsif arguments.include? '--off'
