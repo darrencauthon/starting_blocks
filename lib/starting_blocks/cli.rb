@@ -8,9 +8,11 @@ module StartingBlocks
 
       operations_to_always_run.each { |_, o| o.call }
 
-      name_of_action_to_take = [:watch, :off].select { |x| StartingBlocks.arguments.include? x }.first || :run_all_tests
-
       actions[name_of_action_to_take].call
+    end
+
+    def self.name_of_action_to_take
+      [:watch, :off].select { |x| StartingBlocks.arguments.include? x }.first || :run_all_tests
     end
 
     def self.run_all_specs
