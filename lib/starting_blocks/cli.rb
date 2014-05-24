@@ -33,14 +33,7 @@ module StartingBlocks
             operation.call
           end
         end
-        operations_to_always_run.each { |_, o| o.call }
-      end
-
-      def operations_to_always_run
-        {
-          "vendor"  => (-> { StartingBlocks.options[:no_vendor]   = (StartingBlocks.arguments.include?(:vendor) == false) }),
-          "bundler" => (-> { StartingBlocks.options[:use_bundler] = (Dir['Gemfile'].count > 0) } )
-        }
+        StartingBlocks.operations_to_always_run.each { |_, o| o.call }
       end
 
       def run_the_appropriate_command
