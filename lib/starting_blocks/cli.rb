@@ -12,6 +12,21 @@ module StartingBlocks
 
       private 
 
+      def load_the_arguments_to_be_considered arguments
+        StartingBlocks.arguments = build_all_arguments_with arguments
+      end
+
+      def build_all_arguments_with arguments
+        args = [arguments, arguments_from_the_config_file].flatten
+        args.map { |x| x.gsub('--', '').to_sym }
+      end
+
+      def arguments_from_the_config_file
+        config_file = File.expand_path('~/.sb')
+        return [] unless File.exists?(config_file)
+        File.read(config_file).split(' ')
+      end
+
       def run_the_appropriate_command
         actions[name_of_action_to_take].call
       end
@@ -19,10 +34,6 @@ module StartingBlocks
       def setup_the_system
         StartingBlocks.arguments.each { |x| setup_operation[x].call if setup_operation[x] }
         operations_to_always_run.each { |_, o| o.call }
-      end
-
-      def load_the_arguments_to_be_considered arguments
-        StartingBlocks.arguments = build_all_arguments_with arguments
       end
 
       def name_of_action_to_take
@@ -38,11 +49,6 @@ module StartingBlocks
              end.flatten
                              StartingBlocks::Runner.new(StartingBlocks.options).run_files files
            end
-      end
-
-      def build_all_arguments_with arguments
-        args = [arguments, default_arguments].flatten
-        args.map { |x| x.gsub('--', '').to_sym }
       end
 
       def actions
@@ -72,12 +78,6 @@ module StartingBlocks
                     StartingBlocks::Extensions::BlinkyLighting.turn_off!
                   end
         }
-      end
-
-      def default_arguments
-        config_file = File.expand_path('~/.sb')
-        return [] unless File.exists?(config_file)
-        File.read(config_file).split(' ')
       end
 
       def setup_operation
