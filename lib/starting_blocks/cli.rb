@@ -4,10 +4,6 @@ module StartingBlocks
 
       arguments = build_all_arguments_with provided_arguments
 
-      #[:blinky, :growl, :stopplicht].each { |p| require "starting_blocks-#{p}" if arguments.include? p }
-
-      #StartingBlocks.verbose = arguments.include? :verbose
-
       setup_options = {
                         blinky:      -> { require "starting_blocks-blinky" },
                         growl:       -> { require "starting_blocks-growl" },
