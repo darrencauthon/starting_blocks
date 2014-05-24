@@ -29,18 +29,11 @@ module StartingBlocks
 
       def setup_the_system
         StartingBlocks.arguments.each do |argument|
-          conditional_operations[argument].call if conditional_operations[argument]
+          if operation = StartingBlocks.conditional_operations[argument]
+            operation.call
+          end
         end
         operations_to_always_run.each { |_, o| o.call }
-      end
-
-      def conditional_operations
-        {
-          blinky:      -> { require "starting_blocks-blinky" },
-          growl:       -> { require "starting_blocks-growl" },
-          stopplicht:  -> { require "starting_blocks-stopplicht" },
-          verbose:     -> { StartingBlocks.verbose }
-        }
       end
 
       def operations_to_always_run

@@ -12,6 +12,7 @@ module StartingBlocks
     attr_accessor :verbose
     attr_accessor :options
     attr_accessor :arguments
+    attr_accessor :conditional_operations
 
     def options
       @options ||= {}
@@ -25,7 +26,20 @@ module StartingBlocks
       @actions ||= default_actions
     end
 
+    def conditional_operations
+      @conditional_operations ||= default_conditional_operations
+    end
+
     private
+
+    def default_conditional_operations
+      {
+        blinky:      -> { require "starting_blocks-blinky" },
+        growl:       -> { require "starting_blocks-growl" },
+        stopplicht:  -> { require "starting_blocks-stopplicht" },
+        verbose:     -> { StartingBlocks.verbose }
+      }
+    end
 
     def default_actions
       {
