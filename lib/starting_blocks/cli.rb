@@ -4,15 +4,7 @@ module StartingBlocks
 
       arguments = build_all_arguments_with provided_arguments
 
-      setup_options = {
-                        blinky:      -> { require "starting_blocks-blinky" },
-                        growl:       -> { require "starting_blocks-growl" },
-                        stopplicht:  -> { require "starting_blocks-stopplicht" },
-                        verbose:     -> { StartingBlocks.verbose }
-                      }
-      arguments.each do |x|
-        setup_options[x].call if setup_options[x]
-      end
+      arguments.each { |x| setup_operation[x].call if setup_operation[x] }
 
       options = {
                   no_vendor:   (arguments.include?(:vendor) == false),
@@ -75,6 +67,15 @@ module StartingBlocks
       config_file = File.expand_path('~/.sb')
       return [] unless File.exists?(config_file)
       File.read(config_file).split(' ')
+    end
+
+    def self.setup_operation
+      {
+        blinky:      -> { require "starting_blocks-blinky" },
+        growl:       -> { require "starting_blocks-growl" },
+        stopplicht:  -> { require "starting_blocks-stopplicht" },
+        verbose:     -> { StartingBlocks.verbose }
+      }
     end
   end
 end
