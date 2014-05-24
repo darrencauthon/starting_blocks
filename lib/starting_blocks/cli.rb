@@ -38,7 +38,7 @@ module StartingBlocks
                                 if user_input == "stop\n"
                                   exit
                                 elsif user_input == "\n"
-                                  run_all_specs options
+                                  run_all_specs.call options
                                 end
                               end
                             end,
