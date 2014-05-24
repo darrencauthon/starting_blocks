@@ -59,17 +59,6 @@ module StartingBlocks
         action || :run_all_tests
       end
 
-      def run_all_specs
-        ->() do
-             files = ['**/*_spec.rb*', '**/*_test.rb*', '**/test_*.rb*'].map do |d|
-               Dir[d].
-                 select { |f| File.file?(f) }.
-                 map    { |x| File.expand_path(x) }
-             end.flatten
-             StartingBlocks::Runner.new(StartingBlocks.options).run_files files
-           end
-      end
-
     end
 
   end
