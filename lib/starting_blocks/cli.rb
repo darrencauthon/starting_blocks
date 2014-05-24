@@ -1,14 +1,22 @@
 module StartingBlocks
   module Cli
-    def self.run provided_arguments
+    def self.run arguments
+      load_the_arguments_to_be_considered arguments
+      setup_the_system
+      run_the_appropriate_command
+    end
 
-      StartingBlocks.arguments = build_all_arguments_with provided_arguments
-
-      StartingBlocks.arguments.each { |x| setup_operation[x].call if setup_operation[x] }
-
-      operations_to_always_run.each { |_, o| o.call }
-
+    def self.run_the_appropriate_command
       actions[name_of_action_to_take].call
+    end
+
+    def self.setup_the_system
+      StartingBlocks.arguments.each { |x| setup_operation[x].call if setup_operation[x] }
+      operations_to_always_run.each { |_, o| o.call }
+    end
+
+    def self.load_the_arguments_to_be_considered arguments
+      StartingBlocks.arguments = build_all_arguments_with arguments
     end
 
     def self.name_of_action_to_take
