@@ -1,93 +1,103 @@
 module StartingBlocks
+
   module Cli
+
     def self.run arguments
       load_the_arguments_to_be_considered arguments
       setup_the_system
       run_the_appropriate_command
     end
 
-    def self.run_the_appropriate_command
-      actions[name_of_action_to_take].call
-    end
+    class << self
 
-    def self.setup_the_system
-      StartingBlocks.arguments.each { |x| setup_operation[x].call if setup_operation[x] }
-      operations_to_always_run.each { |_, o| o.call }
-    end
+      private 
 
-    def self.load_the_arguments_to_be_considered arguments
-      StartingBlocks.arguments = build_all_arguments_with arguments
-    end
+      def run_the_appropriate_command
+        actions[name_of_action_to_take].call
+      end
 
-    def self.name_of_action_to_take
-      [:watch, :off].select { |x| StartingBlocks.arguments.include? x }.first || :run_all_tests
-    end
+      def setup_the_system
+        StartingBlocks.arguments.each { |x| setup_operation[x].call if setup_operation[x] }
+        operations_to_always_run.each { |_, o| o.call }
+      end
 
-    def self.run_all_specs
-      ->() do
-           files = ['**/*_spec.rb*', '**/*_test.rb*', '**/test_*.rb*'].map do |d|
-             Dir[d].
-               select { |f| File.file?(f) }.
-               map    { |x| File.expand_path(x) }
-           end.flatten
-                           StartingBlocks::Runner.new(StartingBlocks.options).run_files files
-         end
-    end
+      def load_the_arguments_to_be_considered arguments
+        StartingBlocks.arguments = build_all_arguments_with arguments
+      end
 
-    def self.build_all_arguments_with arguments
-      args = [arguments, default_arguments].flatten
-      args.map { |x| x.gsub('--', '').to_sym }
-    end
+      def name_of_action_to_take
+        [:watch, :off].select { |x| StartingBlocks.arguments.include? x }.first || :run_all_tests
+      end
 
-    def self.actions
-      {
-        watch: -> do
-                    listener = StartingBlocks::Watcher.start_watching Dir, StartingBlocks.options
-                    StartingBlocks.display "Going to sleep, waiting for changes"
-                    puts 'Enter "stop" to stop the listener'
-                    puts 'Enter a blank line to run all of the tests'
-                    listener.start
-                    loop do
-                      user_input = STDIN.gets
-                      if user_input == "stop\n"
-                        exit
-                      elsif user_input == "\n"
-                        run_all_specs.call
+      def run_all_specs
+        ->() do
+             files = ['**/*_spec.rb*', '**/*_test.rb*', '**/test_*.rb*'].map do |d|
+               Dir[d].
+                 select { |f| File.file?(f) }.
+                 map    { |x| File.expand_path(x) }
+             end.flatten
+                             StartingBlocks::Runner.new(StartingBlocks.options).run_files files
+           end
+      end
+
+      def build_all_arguments_with arguments
+        args = [arguments, default_arguments].flatten
+        args.map { |x| x.gsub('--', '').to_sym }
+      end
+
+      def actions
+        {
+          watch: -> do
+                      listener = StartingBlocks::Watcher.start_watching Dir, StartingBlocks.options
+                      StartingBlocks.display "Going to sleep, waiting for changes"
+                      puts 'Enter "stop" to stop the listener'
+                      puts 'Enter a blank line to run all of the tests'
+                      listener.start
+                      loop do
+                        user_input = STDIN.gets
+                        if user_input == "stop\n"
+                          exit
+                        elsif user_input == "\n"
+                          run_all_specs.call
+                        end
                       end
-                    end
-                  end,
-        run_all_tests: -> do
-                            results = run_all_specs.call
-                                      parsed_results = StartingBlocks::Publisher.result_parser.parse(results)
-                            success = parsed_results[:color] == :green
-                                      exit success
-                          end,
-        off: -> do
-                  StartingBlocks::Extensions::BlinkyLighting.turn_off!
-                end
-      }
+                    end,
+          run_all_tests: -> do
+                              results = run_all_specs.call
+                                        parsed_results = StartingBlocks::Publisher.result_parser.parse(results)
+                              success = parsed_results[:color] == :green
+                                        exit success
+                            end,
+          off: -> do
+                    StartingBlocks::Extensions::BlinkyLighting.turn_off!
+                  end
+        }
+      end
+
+      def default_arguments
+        config_file = File.expand_path('~/.sb')
+        return [] unless File.exists?(config_file)
+        File.read(config_file).split(' ')
+      end
+
+      def setup_operation
+        {
+          blinky:      -> { require "starting_blocks-blinky" },
+          growl:       -> { require "starting_blocks-growl" },
+          stopplicht:  -> { require "starting_blocks-stopplicht" },
+          verbose:     -> { StartingBlocks.verbose }
+        }
+      end
+
+      def operations_to_always_run
+        {
+          "vendor"  => (-> { StartingBlocks.options[:no_vendor]   = (StartingBlocks.arguments.include?(:vendor) == false) }),
+          "bundler" => (-> { StartingBlocks.options[:use_bundler] = (Dir['Gemfile'].count > 0) } )
+        }
+      end
+
     end
 
-    def self.default_arguments
-      config_file = File.expand_path('~/.sb')
-      return [] unless File.exists?(config_file)
-      File.read(config_file).split(' ')
-    end
-
-    def self.setup_operation
-      {
-        blinky:      -> { require "starting_blocks-blinky" },
-        growl:       -> { require "starting_blocks-growl" },
-        stopplicht:  -> { require "starting_blocks-stopplicht" },
-        verbose:     -> { StartingBlocks.verbose }
-      }
-    end
-
-    def self.operations_to_always_run
-      {
-        "vendor"  => (-> { StartingBlocks.options[:no_vendor]   = (StartingBlocks.arguments.include?(:vendor) == false) }),
-        "bundler" => (-> { StartingBlocks.options[:use_bundler] = (Dir['Gemfile'].count > 0) } )
-      }
-    end
   end
+
 end
