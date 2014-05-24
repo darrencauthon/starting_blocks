@@ -28,10 +28,26 @@ module StartingBlocks
       end
 
       def setup_the_system
-        StartingBlocks.arguments.each do |x|
-          conditional_operations[x].call if conditional_operations[x]
+        StartingBlocks.arguments.each do |argument|
+          conditional_operations[argument].call if conditional_operations[argument]
         end
         operations_to_always_run.each { |_, o| o.call }
+      end
+
+      def conditional_operations
+        {
+          blinky:      -> { require "starting_blocks-blinky" },
+          growl:       -> { require "starting_blocks-growl" },
+          stopplicht:  -> { require "starting_blocks-stopplicht" },
+          verbose:     -> { StartingBlocks.verbose }
+        }
+      end
+
+      def operations_to_always_run
+        {
+          "vendor"  => (-> { StartingBlocks.options[:no_vendor]   = (StartingBlocks.arguments.include?(:vendor) == false) }),
+          "bundler" => (-> { StartingBlocks.options[:use_bundler] = (Dir['Gemfile'].count > 0) } )
+        }
       end
 
       def run_the_appropriate_command
@@ -79,22 +95,6 @@ module StartingBlocks
           off: -> do
                     StartingBlocks::Extensions::BlinkyLighting.turn_off!
                   end
-        }
-      end
-
-      def conditional_operations
-        {
-          blinky:      -> { require "starting_blocks-blinky" },
-          growl:       -> { require "starting_blocks-growl" },
-          stopplicht:  -> { require "starting_blocks-stopplicht" },
-          verbose:     -> { StartingBlocks.verbose }
-        }
-      end
-
-      def operations_to_always_run
-        {
-          "vendor"  => (-> { StartingBlocks.options[:no_vendor]   = (StartingBlocks.arguments.include?(:vendor) == false) }),
-          "bundler" => (-> { StartingBlocks.options[:use_bundler] = (Dir['Gemfile'].count > 0) } )
         }
       end
 
