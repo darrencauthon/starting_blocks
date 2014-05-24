@@ -6,8 +6,6 @@ module StartingBlocks
 
       [:blinky, :growl, :stopplicht].each { |p| require "starting_blocks-#{p}" if arguments.include? p }
 
-      arguments = arguments.map { |x| x.gsub('--', '').to_sym }
-
       StartingBlocks.verbose = arguments.include? :verbose
 
       options = {
@@ -62,7 +60,8 @@ module StartingBlocks
     end
 
     def self.build_all_arguments_with arguments
-      [arguments, default_arguments].flatten
+      args = [arguments, default_arguments].flatten
+      args.map { |x| x.gsub('--', '').to_sym }
     end
 
     def self.default_arguments
