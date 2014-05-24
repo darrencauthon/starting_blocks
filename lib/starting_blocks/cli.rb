@@ -27,13 +27,15 @@ module StartingBlocks
         File.read(config_file).split(' ')
       end
 
-      def run_the_appropriate_command
-        actions[name_of_action_to_take].call
+      def setup_the_system
+        StartingBlocks.arguments.each do |x|
+          conditional_operations[x].call if conditional_operations[x]
+        end
+        operations_to_always_run.each { |_, o| o.call }
       end
 
-      def setup_the_system
-        StartingBlocks.arguments.each { |x| setup_operation[x].call if setup_operation[x] }
-        operations_to_always_run.each { |_, o| o.call }
+      def run_the_appropriate_command
+        actions[name_of_action_to_take].call
       end
 
       def name_of_action_to_take
@@ -80,7 +82,7 @@ module StartingBlocks
         }
       end
 
-      def setup_operation
+      def conditional_operations
         {
           blinky:      -> { require "starting_blocks-blinky" },
           growl:       -> { require "starting_blocks-growl" },
