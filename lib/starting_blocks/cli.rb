@@ -66,7 +66,7 @@ module StartingBlocks
                  select { |f| File.file?(f) }.
                  map    { |x| File.expand_path(x) }
              end.flatten
-                             StartingBlocks::Runner.new(StartingBlocks.options).run_files files
+             StartingBlocks::Runner.new(StartingBlocks.options).run_files files
            end
       end
 
