@@ -11,6 +11,11 @@ module StartingBlocks
 
   class << self
     attr_accessor :verbose
+    attr_accessor :options
+
+    def options
+      @options ||= {}
+    end
   end
 
   def self.display message

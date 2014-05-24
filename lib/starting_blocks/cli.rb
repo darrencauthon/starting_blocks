@@ -6,25 +6,23 @@ module StartingBlocks
 
       arguments.each { |x| setup_operation[x].call if setup_operation[x] }
 
-      options = {
-                  no_vendor:   (arguments.include?(:vendor) == false),
-                  use_bundler: (Dir['Gemfile'].count > 0)
-                }
+      StartingBlocks.options[:no_vendor]   = (arguments.include?(:vendor) == false)
+      StartingBlocks.options[:use_bundler] = (Dir['Gemfile'].count > 0)
 
 
-      run_all_specs = ->(options) do
+      run_all_specs = ->() do
                            files = ['**/*_spec.rb*', '**/*_test.rb*', '**/test_*.rb*'].map do |d|
                              Dir[d].
                                select { |f| File.file?(f) }.
                                map    { |x| File.expand_path(x) }
                            end.flatten
 
-                           StartingBlocks::Runner.new(options).run_files files
+                           StartingBlocks::Runner.new(StartingBlocks.options).run_files files
                          end
 
       actions = {
                   watch: -> do
-                              listener = StartingBlocks::Watcher.start_watching Dir, options
+                              listener = StartingBlocks::Watcher.start_watching Dir, StartingBlocks.options
                               StartingBlocks.display "Going to sleep, waiting for changes"
 
                               puts 'Enter "stop" to stop the listener'
@@ -36,12 +34,12 @@ module StartingBlocks
                                 if user_input == "stop\n"
                                   exit
                                 elsif user_input == "\n"
-                                  run_all_specs.call options
+                                  run_all_specs.call
                                 end
                               end
                             end,
                   run_all_tests: -> do
-                                      results = run_all_specs.call(options)
+                                      results = run_all_specs.call
 
                                       parsed_results = StartingBlocks::Publisher.result_parser.parse(results)
                                       success = parsed_results[:color] == :green
