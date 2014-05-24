@@ -1,7 +1,7 @@
 module StartingBlocks
   module Cli
-    def self.run
-      arguments = [ARGV, (File.exists?(File.expand_path('~/.sb')) ? File.read(File.expand_path('~/.sb')).split(' ') : [])].flatten
+    def self.run options
+      arguments = [options, default_options].flatten
 
       [:blinky, :growl, :stopplicht].each { |p| require "starting_blocks-#{p}" if arguments.include? p }
 
@@ -58,6 +58,12 @@ module StartingBlocks
       name_of_action_to_take = [:watch, :off].select { |x| arguments.include? x }.first || :run_all_tests
 
       actions[name_of_action_to_take].call
+    end
+
+    def self.default_options
+      config_file = File.expand_path('~/.sb')
+      return [] unless File.exists?(config_file)
+      File.read(config_file).split(' ')
     end
   end
 end
