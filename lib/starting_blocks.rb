@@ -12,9 +12,14 @@ module StartingBlocks
   class << self
     attr_accessor :verbose
     attr_accessor :options
+    attr_accessor :arguments
 
     def options
       @options ||= {}
+    end
+
+    def arguments
+      @arguments ||= []
     end
   end
 

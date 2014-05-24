@@ -2,19 +2,11 @@ module StartingBlocks
   module Cli
     def self.run provided_arguments
 
-      arguments = build_all_arguments_with provided_arguments
+      StartingBlocks.arguments = build_all_arguments_with provided_arguments
 
-      arguments.each { |x| setup_operation[x].call if setup_operation[x] }
+      StartingBlocks.arguments.each { |x| setup_operation[x].call if setup_operation[x] }
 
-      operations_to_always_run = {
-                                   "vendor"  => (-> { StartingBlocks.options[:no_vendor]   = (arguments.include?(:vendor) == false) }),
-                                   "bundler" => (-> { StartingBlocks.options[:use_bundler] = (Dir['Gemfile'].count > 0) } )
-                                 }
       operations_to_always_run.each { |_, o| o.call }
-
-
-      puts StartingBlocks.options[:use_bundler].inspect
-      puts StartingBlocks.options[:no_vendor].inspect
 
       run_all_specs = ->() do
                            files = ['**/*_spec.rb*', '**/*_test.rb*', '**/test_*.rb*'].map do |d|
@@ -57,7 +49,7 @@ module StartingBlocks
                           end
                 }
 
-      name_of_action_to_take = [:watch, :off].select { |x| arguments.include? x }.first || :run_all_tests
+      name_of_action_to_take = [:watch, :off].select { |x| StartingBlocks.arguments.include? x }.first || :run_all_tests
 
       actions[name_of_action_to_take].call
     end
@@ -79,6 +71,13 @@ module StartingBlocks
         growl:       -> { require "starting_blocks-growl" },
         stopplicht:  -> { require "starting_blocks-stopplicht" },
         verbose:     -> { StartingBlocks.verbose }
+      }
+    end
+
+    def self.operations_to_always_run
+      {
+        "vendor"  => (-> { StartingBlocks.options[:no_vendor]   = (StartingBlocks.arguments.include?(:vendor) == false) }),
+        "bundler" => (-> { StartingBlocks.options[:use_bundler] = (Dir['Gemfile'].count > 0) } )
       }
     end
   end
