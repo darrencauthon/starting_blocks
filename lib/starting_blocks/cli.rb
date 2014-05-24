@@ -4,14 +4,25 @@ module StartingBlocks
 
       arguments = build_all_arguments_with provided_arguments
 
-      [:blinky, :growl, :stopplicht].each { |p| require "starting_blocks-#{p}" if arguments.include? p }
+      #[:blinky, :growl, :stopplicht].each { |p| require "starting_blocks-#{p}" if arguments.include? p }
 
-      StartingBlocks.verbose = arguments.include? :verbose
+      #StartingBlocks.verbose = arguments.include? :verbose
+
+      setup_options = {
+                        blinky:      -> { require "starting_blocks-blinky" },
+                        growl:       -> { require "starting_blocks-growl" },
+                        stopplicht:  -> { require "starting_blocks-stopplicht" },
+                        verbose:     -> { StartingBlocks.verbose }
+                      }
+      arguments.each do |x|
+        setup_options[x].call if setup_options[x]
+      end
 
       options = {
                   no_vendor:   (arguments.include?(:vendor) == false),
                   use_bundler: (Dir['Gemfile'].count > 0)
                 }
+
 
       run_all_specs = ->(options) do
                            files = ['**/*_spec.rb*', '**/*_test.rb*', '**/test_*.rb*'].map do |d|
