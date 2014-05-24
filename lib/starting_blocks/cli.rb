@@ -55,7 +55,8 @@ module StartingBlocks
       end
 
       def name_of_action_to_take
-        [:watch, :off].select { |x| StartingBlocks.arguments.include? x }.first || :run_all_tests
+        action = actions.keys.select { |x| StartingBlocks.arguments.include? x }.first
+        action || :run_all_tests
       end
 
       def run_all_specs
