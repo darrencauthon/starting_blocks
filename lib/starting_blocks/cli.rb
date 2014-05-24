@@ -1,7 +1,7 @@
 module StartingBlocks
   module Cli
-    def self.run options
-      arguments = [options, default_options].flatten
+    def self.run arguments
+      arguments = [arguments, default_arguments].flatten
 
       [:blinky, :growl, :stopplicht].each { |p| require "starting_blocks-#{p}" if arguments.include? p }
 
@@ -60,7 +60,7 @@ module StartingBlocks
       actions[name_of_action_to_take].call
     end
 
-    def self.default_options
+    def self.default_arguments
       config_file = File.expand_path('~/.sb')
       return [] unless File.exists?(config_file)
       File.read(config_file).split(' ')
