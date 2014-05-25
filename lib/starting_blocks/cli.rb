@@ -31,9 +31,18 @@ module StartingBlocks
         StartingBlocks.arguments.each do |argument|
           if operation = StartingBlocks.conditional_operations[argument]
             operation.call
+          else
+            try_to_load_a_blinky_extension argument
           end
         end
         StartingBlocks.operations_to_always_run.each { |_, o| o.call }
+      end
+
+      def try_to_load_a_blinky_extension argument
+        begin
+          require "starting_blocks-#{argument}"
+        rescue LoadError => error
+        end
       end
 
       def run_the_appropriate_command

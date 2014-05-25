@@ -45,9 +45,6 @@ module StartingBlocks
 
     def default_conditional_operations
       {
-        blinky:      -> { require "starting_blocks-blinky" },
-        growl:       -> { require "starting_blocks-growl" },
-        stopplicht:  -> { require "starting_blocks-stopplicht" },
         verbose:     -> { StartingBlocks.verbose }
       }
     end
