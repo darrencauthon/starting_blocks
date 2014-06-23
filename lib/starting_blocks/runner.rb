@@ -2,7 +2,7 @@ module StartingBlocks
   class Runner
 
     def initialize options
-      @use_bundler = options[:use_bundler]
+      @use_bundler    = options[:use_bundler]
       @include_vendor = options[:no_vendor] != true
     end
 
