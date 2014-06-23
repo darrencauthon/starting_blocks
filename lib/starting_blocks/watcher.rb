@@ -8,6 +8,9 @@ module StartingBlocks
     @last_failed_run = nil
 
     class << self
+
+      attr_accessor :runner
+
       def start_watching(dir, options)
         StartingBlocks.display("Start watching #{dir.getwd} with #{options.inspect}")
         set_up_the_runner options
