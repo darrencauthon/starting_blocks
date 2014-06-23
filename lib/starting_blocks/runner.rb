@@ -17,10 +17,8 @@ module StartingBlocks
       results
     end
 
-    private
-
     def execute_these_files files
-      executer = CommandExecuter.build_for(@options)
+      executer = RunExecuter.build_for @options
       executer.execute files
     end
   end

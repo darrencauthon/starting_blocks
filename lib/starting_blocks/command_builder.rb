@@ -1,18 +1,18 @@
 module StartingBlocks
 
-  class CommandExecuter
+  class RunExecuter
 
     def initialize options
       @options = options
     end
 
     def self.build_for options
-      RubyCommandBuilder.new(@options)
+      RubyRunExecuter.new(@options)
     end
 
   end
 
-  class RubyCommandExecuter < CommandExecuter
+  class RubyRunExecuter < RunExecuter
 
     def execute_these_files files
       requires = files.map { |x| "require '#{x}'" }.join("\n")
