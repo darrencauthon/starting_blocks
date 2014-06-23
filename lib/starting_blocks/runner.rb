@@ -2,6 +2,7 @@ module StartingBlocks
   class Runner
 
     def initialize options
+      @options = options
       @use_bundler    = options[:use_bundler]
       @include_vendor = options[:no_vendor] != true
     end
@@ -19,12 +20,8 @@ module StartingBlocks
     private
 
     def execute_these_files files
-      requires = files.map { |x| "require '#{x}'" }.join("\n")
-      if @use_bundler
-        `bundle exec ruby -e "#{requires}"`
-      else
-        `ruby -e "#{requires}"`
-      end
+      executer = CommandExecuter.build_for(@options)
+      executer.execute files
     end
   end
 end
