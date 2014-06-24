@@ -2,7 +2,7 @@ module StartingBlocks
   class Runner
 
     def initialize options
-      @contract = StartingBlocks::MinitestContract.new options
+      @contract = StartingBlocks::Contract.for options
     end
 
     def run_files files

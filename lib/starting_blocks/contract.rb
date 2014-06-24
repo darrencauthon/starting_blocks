@@ -24,6 +24,10 @@ module StartingBlocks
       raise 'You have to define how to execute these files.'
     end
 
+    def self.for options
+      StartingBlocks::MinitestContract.new options
+    end
+
   end
 
 end

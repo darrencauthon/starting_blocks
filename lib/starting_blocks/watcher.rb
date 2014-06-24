@@ -59,7 +59,7 @@ module StartingBlocks
       end
 
       def set_up_the_contract options
-        @contract = StartingBlocks::MinitestContract.new(options)
+        @contract = StartingBlocks::Contract.for options
       end
 
       def store_the_specs_if_they_failed results, specs

@@ -82,7 +82,7 @@ module StartingBlocks
 
     def run_all_specs
       ->() do
-           contract = StartingBlocks::MinitestContract.new StartingBlocks.options
+           contract = StartingBlocks::Contract.for StartingBlocks.options
            file_specs = contract.file_clues.map do |clue|
                           contract.extensions.map do |extension|
                             "**/*#{clue}*.#{extension.gsub('.', '')}"
