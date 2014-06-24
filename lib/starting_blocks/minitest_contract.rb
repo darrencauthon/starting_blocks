@@ -3,7 +3,7 @@ module StartingBlocks
   class MinitestContract < Contract
 
     def filter_these_files files
-      files.select { |x| @include_vendor || x.include?('/vendor/') == false }
+      files.select { |x| options[:include_vendor] || x.include?('/vendor/') == false }
     end
 
     def execute_these_files files

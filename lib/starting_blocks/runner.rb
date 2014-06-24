@@ -3,8 +3,6 @@ module StartingBlocks
 
     def initialize options
       @contract = StartingBlocks::MinitestContract.new options
-      @use_bundler = options[:use_bundler]
-      @include_vendor = options[:no_vendor] != true
     end
 
     def run_files files
