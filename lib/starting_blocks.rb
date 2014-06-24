@@ -5,6 +5,8 @@ require_relative 'starting_blocks/result_parser'
 require_relative 'starting_blocks/result_text_parser'
 require_relative 'starting_blocks/publisher'
 require_relative 'starting_blocks/cli'
+require_relative 'starting_blocks/contract'
+require_relative 'starting_blocks/minitest_contract'
 
 module StartingBlocks
 
