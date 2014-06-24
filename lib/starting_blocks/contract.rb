@@ -20,6 +20,10 @@ module StartingBlocks
       files
     end
 
+    def execute_these_files files
+      raise 'You have to define how to execute these files.'
+    end
+
   end
 
 end
