@@ -8,6 +8,11 @@ module StartingBlocks
       @options = options
     end
 
+    def self.inherited klass
+      @contract_types ||= []
+      @contract_types << klass
+    end
+
     def file_clues
       ["test", "spec"]
     end
@@ -25,7 +30,7 @@ module StartingBlocks
     end
 
     def self.for options
-      StartingBlocks::MinitestContract.new options
+      @contract_types.last.new options
     end
 
   end
