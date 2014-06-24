@@ -2,6 +2,14 @@ module StartingBlocks
 
   class MinitestContract < Contract
 
+    def file_clues
+      ["_test", "test_", "_spec"]
+    end
+
+    def extensions
+      ['.rb']
+    end
+
     def filter_these_files files
       files.select { |x| options[:include_vendor] || x.include?('/vendor/') == false }
     end

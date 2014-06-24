@@ -82,7 +82,13 @@ module StartingBlocks
 
     def run_all_specs
       ->() do
-           files = ['**/*_spec.rb*', '**/*_test.rb*', '**/test_*.rb*'].map do |d|
+           contract = StartingBlocks::MinitestContract.new StartingBlocks.options
+           file_specs = contract.file_clues.map do |clue|
+                          contract.extensions.map do |extension|
+                            "**/*#{clue}*.#{extension.gsub('.', '')}"
+                          end
+                        end.flatten
+           files = file_specs.map do |d|
              Dir[d].
                select { |f| File.file?(f) }.
                map    { |x| File.expand_path(x) }
