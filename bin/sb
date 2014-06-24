@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-#require 'starting_blocks'
-require_relative '../lib/starting_blocks'
+require 'starting_blocks'
 
 StartingBlocks::Cli.run ARGV
