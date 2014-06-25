@@ -12,7 +12,11 @@ module StartingBlocks
         set_up_the_contract options
 
         location = dir.getwd
-        @all_files = Dir['**/*']
+        @all_files = @contract.file_clues.map do |clue|
+                       @contract.extensions.map do |extension|
+                         "**/*#{clue}*.#{extension.gsub('.', '')}"
+                       end
+                     end.flatten
 
         puts "Listening to: #{location}"
 
