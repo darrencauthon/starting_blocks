@@ -10,6 +10,7 @@ module StartingBlocks
       files = files.select { |x| extensions.include? x.split('/')[-1].split('.')[-1] }
       files = @contract.filter_these_files files 
       StartingBlocks.display "Files to run: #{files.inspect}"
+      return if files.count == 0
       StartingBlocks::Publisher.publish_files_to_run files
       results = execute_these_files files
       StartingBlocks::Publisher.publish_results results
