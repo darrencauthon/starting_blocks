@@ -46,7 +46,7 @@ module StartingBlocks
 
     def default_conditional_operations
       {
-        verbose:     -> { StartingBlocks.verbose }
+        verbose: -> { StartingBlocks.verbose = true }
       }
     end
 
