@@ -12,11 +12,7 @@ module StartingBlocks
         set_up_the_contract options
 
         location = dir.getwd
-        @all_files = @contract.file_clues.map do |clue|
-                       @contract.extensions.map do |extension|
-                         "**/*#{clue}*.#{extension.gsub('.', '')}"
-                       end
-                     end.flatten
+        @all_files = Dir['**/*']
 
         puts "Listening to: #{location}"
 
@@ -25,6 +21,11 @@ module StartingBlocks
                      StartingBlocks::Watcher.add_it(added[0])      if added.count > 0
                      StartingBlocks::Watcher.delete_it(removed[0]) if removed.count > 0
                      next if @running
+
+extensions = @contract.extensions.map { |x| x.gsub('.', '') }
+files = modified.select { |x| extensions.include? x.split('/')[-1].split('.')[-1] }
+next if modified.count == 0
+
                      StartingBlocks::Watcher.run_it(modified[0])   if modified.count > 0
                    end
 
