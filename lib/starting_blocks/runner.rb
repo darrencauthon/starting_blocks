@@ -6,6 +6,7 @@ module StartingBlocks
     end
 
     def run_files files
+      StartingBlocks.display "Received these files to consider: #{files.inspect}"
       extensions = @contract.extensions.map { |x| x.gsub('.', '') }
       files = files.select { |x| extensions.include? x.split('/')[-1].split('.')[-1] }
       files = @contract.filter_these_files files 
