@@ -6,6 +6,7 @@ module StartingBlocks
     end
 
     def run_files files
+      files = files.select { |x| @contract.extensions.include? x.split('/')[-1].split('.')[-1] }
       files = @contract.filter_these_files files 
       StartingBlocks.display "Files to run: #{files.inspect}"
       StartingBlocks::Publisher.publish_files_to_run files
