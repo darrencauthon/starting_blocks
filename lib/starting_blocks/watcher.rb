@@ -23,7 +23,7 @@ module StartingBlocks
                      next if @running
 
 extensions = @contract.extensions.map { |x| x.gsub('.', '') }
-files = modified.select { |x| extensions.include? x.split('/')[-1].split('.')[-1] }
+modified = modified.select { |x| extensions.include? x.split('/')[-1].split('.')[-1] }
 next if modified.count == 0
 
                      StartingBlocks::Watcher.run_it(modified[0])   if modified.count > 0
