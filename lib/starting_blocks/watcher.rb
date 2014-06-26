@@ -6,7 +6,12 @@ module StartingBlocks
     @last_failed_run = nil
 
     def self.filter_files_according_to_the_contract files, contract
-      ['apple.rb']
+      extensions = contract.extensions.map { |x| x.gsub('.', '').downcase }
+      files.select do |file|
+        splits = file.split('/')[-1].split('.')
+        (splits.count == 1 && extensions.include?('')) ||
+        (extensions.include?(splits[-1].downcase))
+      end
     end
 
     class << self
