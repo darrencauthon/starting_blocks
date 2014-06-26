@@ -82,16 +82,10 @@ module StartingBlocks
     def run_all_specs
       ->() do
            contract = StartingBlocks::Contract.for StartingBlocks.options
-           file_specs = contract.file_clues.map do |clue|
-                          contract.extensions.map do |extension|
-                            "**/*#{clue}*.#{extension.gsub('.', '')}"
-                          end
-                        end.flatten
-           files = file_specs.map do |d|
-             Dir[d].
-               select { |f| File.file?(f) }.
-               map    { |x| File.expand_path(x) }
-           end.flatten
+           files = Dir['**/*'].select { |f| File.file? f }
+                              .map    { |x| File.expand_path x }.flatten
+           files = StartingBlocks::Watcher.filter_files_by_file_clues files, contract.file_clues
+           files = StartingBlocks::Watcher.filter_files_according_to_the_contract files, contract
            StartingBlocks::Runner.new(StartingBlocks.options).run_files files
          end
     end

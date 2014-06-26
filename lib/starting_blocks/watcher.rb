@@ -5,6 +5,23 @@ module StartingBlocks
 
     @last_failed_run = nil
 
+    def self.filter_files_according_to_the_contract files, contract
+      extensions = contract.extensions.map { |x| x.gsub('.', '').downcase }
+      files.select do |file|
+        splits = file.split('/')[-1].split('.')
+        (splits.count == 1 && extensions.include?('')) ||
+        (extensions.include?(splits[-1].downcase))
+      end
+    end
+
+    def self.filter_files_by_file_clues files, clues
+      files.select do |file|
+        file_without_path = file.split('/')[-1]
+        matches = clues.select { |clue| file_without_path.include? clue }
+        matches.count > 0
+      end
+    end
+
     class << self
       def start_watching(dir, options)
         StartingBlocks.display("Start watching #{dir.getwd} with #{options.inspect}")
@@ -21,6 +38,9 @@ module StartingBlocks
                      StartingBlocks::Watcher.add_it(added[0])      if added.count > 0
                      StartingBlocks::Watcher.delete_it(removed[0]) if removed.count > 0
                      next if @running
+
+                     modified = StartingBlocks::Watcher.filter_files_according_to_the_contract modified, @contract
+
                      StartingBlocks::Watcher.run_it(modified[0])   if modified.count > 0
                    end
 
