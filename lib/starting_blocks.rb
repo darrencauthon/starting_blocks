@@ -82,7 +82,10 @@ module StartingBlocks
     def run_all_specs
       ->() do
            contract = StartingBlocks::Contract.for StartingBlocks.options
-           files = StartingBlocks::Watcher.filter_files_according_to_the_contract Dir['**/*'], contract
+           files = Dir['**/*'].select { |f| File.file? f }
+                              .map    { |x| File.expand_path x }.flatten
+           files = files.select { |f| contract.file_clues.select { |c| f.split('/')[-1].include? c }.count > 0 }
+           files = StartingBlocks::Watcher.filter_files_according_to_the_contract files, contract
            StartingBlocks::Runner.new(StartingBlocks.options).run_files files
          end
     end
