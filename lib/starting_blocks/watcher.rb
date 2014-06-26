@@ -15,7 +15,11 @@ module StartingBlocks
     end
 
     def self.filter_files_by_file_clues files, clues
-      files.select { |f| clues.select { |c| f.split('/')[-1].include? c }.count > 0 }
+      files.select do |file|
+        file_without_path = file.split('/')[-1]
+        matches = clues.select { |clue| file_without_path.include? clue }
+        matches.count > 0
+      end
     end
 
     class << self
