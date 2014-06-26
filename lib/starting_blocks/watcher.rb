@@ -31,9 +31,7 @@ module StartingBlocks
                      StartingBlocks::Watcher.delete_it(removed[0]) if removed.count > 0
                      next if @running
 
-extensions = @contract.extensions.map { |x| x.gsub('.', '') }
-modified = modified.select { |x| extensions.include? x.split('/')[-1].split('.')[-1] }
-next if modified.count == 0
+                     modified = StartingBlocks::Watcher.filter_files_according_to_the_contract modified, @contract
 
                      StartingBlocks::Watcher.run_it(modified[0])   if modified.count > 0
                    end
