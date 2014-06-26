@@ -14,6 +14,10 @@ module StartingBlocks
       end
     end
 
+    def self.filter_files_by_file_clues files, clues
+      files.select { |f| clues.select { |c| f.split('/')[-1].include? c }.count > 0 }
+    end
+
     class << self
       def start_watching(dir, options)
         StartingBlocks.display("Start watching #{dir.getwd} with #{options.inspect}")

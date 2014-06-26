@@ -31,4 +31,32 @@ describe StartingBlocks::Watcher do
 
   end
 
+  describe "filtering files according to file clues" do
+
+    [
+      [
+        ['one_test.txt'], ['_test'], ['one_test.txt']
+      ],
+      [
+        ['one_spec.txt'], ['_test'], [],
+      ],
+      [
+        ['two_spec.txt', 'three_test.txt'], ['_spec', '_test'], ['two_spec.txt', 'three_test.txt'],
+      ],
+      [
+        ['another', 'two_spec.txt', 'three_test.txt'], ['_spec', '_test'], ['two_spec.txt', 'three_test.txt'],
+      ],
+    ].map { |x| Struct.new(:files, :clues, :expected).new(*x) }.each do |example|
+
+      describe "multiple examples" do
+        it "should return the expected results" do
+          results = StartingBlocks::Watcher.filter_files_by_file_clues example.files, example.clues
+          results.must_equal example.expected
+        end
+      end
+
+    end
+
+  end
+
 end
