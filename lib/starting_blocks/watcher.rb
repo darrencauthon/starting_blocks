@@ -17,12 +17,18 @@ module StartingBlocks
     def self.filter_files_by_file_clues files, clues
       files.select do |file|
         file_without_path = file.split('/')[-1]
-        matches = clues.select { |clue| file_without_path.include? clue }
+        matches = clues.select { |c| the_clue_and_the_file_match c, file }
         matches.count > 0
       end
     end
 
     class << self
+
+      def the_clue_and_the_file_match clue, file
+        file_without_extension = file.split('.')[0]
+        file_without_extension.end_with?(clue) || file_without_extension.start_with?(clue)
+      end
+
       def start_watching(dir, options)
         StartingBlocks.display("Start watching #{dir.getwd} with #{options.inspect}")
         set_up_the_runner options
