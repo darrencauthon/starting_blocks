@@ -5,6 +5,7 @@ require_relative 'starting_blocks/result_parser'
 require_relative 'starting_blocks/result_text_parser'
 require_relative 'starting_blocks/publisher'
 require_relative 'starting_blocks/cli'
+require_relative 'starting_blocks/single_command'
 require_relative 'starting_blocks/minitest_contract'
 
 module StartingBlocks
@@ -52,7 +53,12 @@ module StartingBlocks
 
     def default_actions
       {
-        execute: -> { puts ARGV[ARGV.index('execute') + 1] },
+        execute: -> do
+                      statement_to_execute = ARGV[ARGV.index('execute') + 1]
+                      StartingBlocks::Publisher.publish_files_to_run [statement_to_execute]
+                      result = StartingBlocks::SingleCommand.new(statement_to_execute).execute
+                      StartingBlocks::Publisher.publish_results( { color: (result ? :green : :red), tests: 1, assertions: 1, failures: (result ? 0 : 1), errors: 0, skips: 0 })
+                    end,
         watch: -> do
                     listener = StartingBlocks::Watcher.start_watching Dir, StartingBlocks.options
                     StartingBlocks.display "Going to sleep, waiting for changes"
