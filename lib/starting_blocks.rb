@@ -54,10 +54,17 @@ module StartingBlocks
     def default_actions
       {
         execute: -> do
+                      StartingBlocks::Publisher.result_parser = StartingBlocks::PassThroughResultParser.new
+
                       statement_to_execute = ARGV[ARGV.index('execute') + 1]
                       StartingBlocks::Publisher.publish_files_to_run [statement_to_execute]
                       result = StartingBlocks::SingleCommand.new(statement_to_execute).execute
-                      StartingBlocks::Publisher.publish_results( { color: (result ? :green : :red), tests: 1, assertions: 1, failures: (result ? 0 : 1), errors: 0, skips: 0 })
+                      StartingBlocks::Publisher.publish_results( { color: (result ? :green : :red),
+                                                                   tests: 1,
+                                                                   assertions: 1,
+                                                                   failures: (result ? 0 : 1),
+                                                                   errors: 0,
+                                                                   skips: 0 })
                     end,
         watch: -> do
                     listener = StartingBlocks::Watcher.start_watching Dir, StartingBlocks.options

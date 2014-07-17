@@ -1,4 +1,10 @@
 module StartingBlocks
+  class PassThroughResultParser
+    def parse results
+      results
+    end
+  end
+
   class ResultParser
 
     def parse text
