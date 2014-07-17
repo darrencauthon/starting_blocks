@@ -52,7 +52,7 @@ module StartingBlocks
 
     def default_actions
       {
-        execute: -> { raise 'here you go' },
+        execute: -> { puts ARGV[ARGV.index('execute') + 1] },
         watch: -> do
                     listener = StartingBlocks::Watcher.start_watching Dir, StartingBlocks.options
                     StartingBlocks.display "Going to sleep, waiting for changes"
