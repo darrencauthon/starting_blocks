@@ -65,6 +65,7 @@ module StartingBlocks
                                                                    failures: (result[:success] ? 0 : 1),
                                                                    errors: 0,
                                                                    skips: 0 })
+                      puts result[:text]
                     end,
         watch: -> do
                     listener = StartingBlocks::Watcher.start_watching Dir, StartingBlocks.options
