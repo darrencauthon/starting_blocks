@@ -17,20 +17,10 @@ describe StartingBlocks::ResultParser do
 
   describe "returning results from the text parser" do
 
-    describe "multiple examples" do
-
-      [
-        ['a', 'b'],
-        ['b', 'c'],
-      ].map { |x| Struct.new(:key, :value).new(*x) }.each do |example|
-
-        it "should return the data from the text parser" do
-          parsed_output[example.key] = example.value
-          output[example.key].must_be_same_as example.value
-        end
-
-      end
-
+    it "should return the data from the text parser" do
+      key, value         = Object.new, Object.new
+      parsed_output[key] = value
+      output[key].must_be_same_as value
     end
 
   end
