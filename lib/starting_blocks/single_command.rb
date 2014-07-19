@@ -5,8 +5,7 @@ module StartingBlocks
     end
 
     def execute
-      `#{@command}`
-      $?.success?
+      StartingBlocks::Bash.run(@command)[:success]
     end
   end
 end

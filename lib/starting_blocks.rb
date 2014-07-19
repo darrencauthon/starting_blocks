@@ -7,6 +7,7 @@ require_relative 'starting_blocks/publisher'
 require_relative 'starting_blocks/cli'
 require_relative 'starting_blocks/single_command'
 require_relative 'starting_blocks/minitest_contract'
+require_relative 'starting_blocks/bash'
 
 module StartingBlocks
 
