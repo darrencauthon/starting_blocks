@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe StartingBlocks::ResultParser do
+describe StartingBlocks::ResultBuilder do
 
   let(:parsed_output) { {} }
 
@@ -11,7 +11,7 @@ describe StartingBlocks::ResultParser do
     StartingBlocks::ResultTextParser.stubs(:new).returns text_parser
     text_parser.stubs(:parse).with(text).returns parsed_output
 
-    StartingBlocks::ResultParser.new.parse text
+    StartingBlocks::ResultBuilder.new.parse text
   end
 
 

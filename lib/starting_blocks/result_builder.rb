@@ -5,7 +5,7 @@ module StartingBlocks
     end
   end
 
-  class ResultParser
+  class ResultBuilder
 
     def parse text
       load_the_output_from(text).merge(color: color)
