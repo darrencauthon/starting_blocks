@@ -8,9 +8,7 @@ module StartingBlocks
   class ResultParser
 
     def parse text
-      output = load_the_output_from text
-      output[:color] = color
-      output
+      load_the_output_from(text).merge(color: color)
     end
 
     private
