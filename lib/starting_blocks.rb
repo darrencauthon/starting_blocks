@@ -1,12 +1,5 @@
-require_relative "starting_blocks/version"
-require_relative 'starting_blocks/runner'
-require_relative 'starting_blocks/watcher'
-require_relative 'starting_blocks/result_builder'
-require_relative 'starting_blocks/result_text_parser'
-require_relative 'starting_blocks/publisher'
-require_relative 'starting_blocks/cli'
-require_relative 'starting_blocks/minitest_contract'
-require_relative 'starting_blocks/bash'
+require_relative "starting_blocks/result_builder"
+Dir[File.dirname(__FILE__) + '/starting_blocks/*.rb'].each { |f| require f }
 
 module StartingBlocks
 
