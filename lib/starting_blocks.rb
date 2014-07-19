@@ -111,4 +111,3 @@ module StartingBlocks
     puts message if @verbose
   end
 end
-#StartingBlocks::Publisher.subscribers << StartingBlocks::Extensions::BlinkyLighting.new
