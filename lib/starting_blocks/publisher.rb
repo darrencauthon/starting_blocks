@@ -3,6 +3,14 @@ module StartingBlocks
     class << self
       attr_accessor :subscribers, :result_builder
 
+      def subscribers
+        @subscribers ||= []
+      end
+
+      def result_builder
+        @result_builder ||= StartingBlocks::ResultBuilder.new
+      end
+
       def publish_results results
         return unless @subscribers
         @subscribers.each do |s| 
@@ -26,5 +34,3 @@ module StartingBlocks
     end
   end
 end
-StartingBlocks::Publisher.subscribers = []
-StartingBlocks::Publisher.result_builder = StartingBlocks::ResultBuilder.new
