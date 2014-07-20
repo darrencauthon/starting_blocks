@@ -8,7 +8,7 @@ describe StartingBlocks::ResultBuilder do
     text        = Object.new
     text_parser = Object.new
 
-    StartingBlocks::ResultTextParser.stubs(:new).returns text_parser
+    StartingBlocks::TextParser.stubs(:new).returns text_parser
     text_parser.stubs(:parse).with(text).returns parsed_output
 
     StartingBlocks::ResultBuilder.new.parse text

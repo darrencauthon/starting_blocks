@@ -16,7 +16,7 @@ module StartingBlocks
     end
 
     def load_the_output_from text
-      @output = StartingBlocks::ResultTextParser.new.parse text
+      @output = StartingBlocks::TextParser.new.parse text
     end
 
     def tests_exist?
