@@ -3,9 +3,9 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe StartingBlocks::ResultBuilder do
 
   let(:parsed_output) { {} }
+  let(:text)          { Object.new }
 
   let(:output) do
-    text        = Object.new
     text_parser = Object.new
     input       = { text: text }
 
@@ -22,6 +22,10 @@ describe StartingBlocks::ResultBuilder do
       key, value         = Object.new, Object.new
       parsed_output[key] = value
       output[key].must_be_same_as value
+    end
+
+    it "should return the text as the text" do
+      output[:text].must_be_same_as text
     end
 
   end
