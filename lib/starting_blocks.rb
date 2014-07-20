@@ -47,7 +47,7 @@ module StartingBlocks
     def default_actions
       {
         execute: -> do
-                      StartingBlocks::Publisher.result_parser = StartingBlocks::PassThroughResultParser.new
+                      StartingBlocks::Publisher.result_builder = StartingBlocks::PassThroughResultParser.new
 
                       statement_to_execute = ARGV[ARGV.index('execute') + 1]
                       StartingBlocks::Publisher.publish_files_to_run [statement_to_execute]
@@ -77,7 +77,7 @@ module StartingBlocks
                   end,
         run_all_tests: -> do
                             results = run_all_specs.call
-                                      parsed_results = StartingBlocks::Publisher.result_parser.parse(results)
+                                      parsed_results = StartingBlocks::Publisher.result_builder.build_from results
                             success = parsed_results[:color] == :green
                                       exit success
                           end,

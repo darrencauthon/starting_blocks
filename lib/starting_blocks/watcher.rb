@@ -89,7 +89,7 @@ module StartingBlocks
       end
 
       def store_the_specs_if_they_failed results, specs
-        parsed_results = StartingBlocks::Publisher.result_parser.parse(results)
+        parsed_results = StartingBlocks::Publisher.result_builder.build_from results
         if parsed_results[:failures] > 0 || parsed_results[:skips] > 0 || parsed_results[:errors] > 0
           @last_failed_run = specs
         else

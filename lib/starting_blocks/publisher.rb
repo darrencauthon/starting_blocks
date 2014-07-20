@@ -14,7 +14,7 @@ module StartingBlocks
       def publish_results results
         return unless @subscribers
         @subscribers.each do |s| 
-          parsed_results = StartingBlocks::Publisher.result_builder.parse(results)
+          parsed_results = StartingBlocks::Publisher.result_builder.build_from results
           begin
             s.receive_results parsed_results
           rescue

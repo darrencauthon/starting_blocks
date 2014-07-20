@@ -1,8 +1,8 @@
 module StartingBlocks
 
-  class PassThroughResultParser
+  class PassThroughResultBuilder
 
-    def parse results
+    def build_from results
       results
     end
 
