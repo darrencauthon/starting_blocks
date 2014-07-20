@@ -13,7 +13,6 @@ describe StartingBlocks::Runner do
       runner.expects(:execute_these_files).with(files).returns results
       StartingBlocks::Publisher.expects(:publish_files_to_run).with files
       StartingBlocks::Publisher.expects(:publish_results).with results
-      runner.expects(:puts).with results
 
       @results = runner.run_files files
     end
@@ -48,7 +47,6 @@ describe StartingBlocks::Runner do
       runner.expects(:execute_these_files).with(files).returns results
       StartingBlocks::Publisher.expects(:publish_files_to_run).with files
       StartingBlocks::Publisher.expects(:publish_results).with results
-      runner.expects(:puts).with results
 
       @results = runner.run_files files
     end
@@ -86,7 +84,6 @@ describe StartingBlocks::Runner do
       runner.expects(:execute_these_files).with(files_without_vendor).returns results
       StartingBlocks::Publisher.expects(:publish_files_to_run).with files_without_vendor
       StartingBlocks::Publisher.expects(:publish_results).with results
-      runner.expects(:puts).with results
 
       @results = runner.run_files files
     end

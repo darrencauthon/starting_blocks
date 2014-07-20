@@ -3,7 +3,8 @@ module StartingBlocks
   class ResultBuilder
 
     def build_from run_result
-      load_the_output_from(run_result[:text]).merge(color: color)
+      load_the_output_from(run_result[:text])
+        .merge(color: color, text: run_result[:text])
     end
 
     private

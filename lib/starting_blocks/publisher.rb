@@ -4,7 +4,7 @@ module StartingBlocks
       attr_accessor :subscribers, :result_builder
 
       def subscribers
-        @subscribers ||= []
+        @subscribers ||= [BashPublisher.new]
       end
 
       def result_builder
@@ -12,8 +12,8 @@ module StartingBlocks
       end
 
       def publish_results results
-        return unless @subscribers
-        @subscribers.each do |s| 
+        return unless subscribers
+        subscribers.each do |s|
           parsed_results = StartingBlocks::Publisher.result_builder.build_from results
           begin
             s.receive_results parsed_results
@@ -23,8 +23,8 @@ module StartingBlocks
       end
 
       def publish_files_to_run files
-        return unless @subscribers
-        @subscribers.each do |s| 
+        return unless subscribers
+        subscribers.each do |s|
           begin
             s.receive_files_to_run files
           rescue

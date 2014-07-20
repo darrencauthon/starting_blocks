@@ -11,7 +11,6 @@ module StartingBlocks
       StartingBlocks::Publisher.publish_files_to_run files
       results = execute_these_files files
       StartingBlocks::Publisher.publish_results results
-      puts results
       results
     end
 
