@@ -48,7 +48,7 @@ module StartingBlocks
     def default_actions
       {
         execute: -> do
-                      StartingBlocks::Publisher.result_builder = StartingBlocks::PassThroughResultParser.new
+                      StartingBlocks::Publisher.result_builder = StartingBlocks::PassThroughResultBuilder.new
 
                       statement_to_execute = ARGV[ARGV.index('execute') + 1]
                       StartingBlocks::Publisher.publish_files_to_run [statement_to_execute]
