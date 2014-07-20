@@ -4,12 +4,12 @@ describe StartingBlocks::Publisher do
 
   let(:results)        { Object.new }
   let(:parsed_results) { Object.new }
-  let(:result_parser)  { mock()     }
+  let(:result_builder) { mock()     }
   let(:files)          { Object.new }
 
   before do
-    result_parser.stubs(:parse).with(results).returns parsed_results
-    StartingBlocks::Publisher.result_parser = result_parser
+    result_builder.stubs(:parse).with(results).returns parsed_results
+    StartingBlocks::Publisher.result_builder = result_builder
   end
 
   describe "#publish_results" do

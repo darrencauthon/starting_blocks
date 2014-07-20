@@ -1,12 +1,12 @@
 module StartingBlocks
   module Publisher
     class << self
-      attr_accessor :subscribers, :result_parser
+      attr_accessor :subscribers, :result_builder
 
       def publish_results results
         return unless @subscribers
         @subscribers.each do |s| 
-          parsed_results = StartingBlocks::Publisher.result_parser.parse(results)
+          parsed_results = StartingBlocks::Publisher.result_builder.parse(results)
           begin
             s.receive_results parsed_results
           rescue
@@ -27,4 +27,4 @@ module StartingBlocks
   end
 end
 StartingBlocks::Publisher.subscribers = []
-StartingBlocks::Publisher.result_parser = StartingBlocks::ResultBuilder.new
+StartingBlocks::Publisher.result_builder = StartingBlocks::ResultBuilder.new
