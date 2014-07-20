@@ -7,11 +7,12 @@ describe StartingBlocks::ResultBuilder do
   let(:output) do
     text        = Object.new
     text_parser = Object.new
+    input       = { text: text }
 
     StartingBlocks::TextParser.stubs(:new).returns text_parser
-    text_parser.stubs(:parse).with(text).returns parsed_output
+    text_parser.stubs(:parse).returns parsed_output
 
-    StartingBlocks::ResultBuilder.new.parse text
+    StartingBlocks::ResultBuilder.new.parse input
   end
 
 

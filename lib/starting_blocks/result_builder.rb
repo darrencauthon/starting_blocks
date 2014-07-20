@@ -2,8 +2,8 @@ module StartingBlocks
 
   class ResultBuilder
 
-    def parse text
-      load_the_output_from(text).merge(color: color)
+    def parse run_result
+      load_the_output_from(run_result[:text]).merge(color: color)
     end
 
     private
