@@ -52,9 +52,9 @@ module StartingBlocks
     def execute_these_files files
       requires = files.map { |x| "require '#{x}'" }.join("\n")
       if options[:use_bundler]
-        `bundle exec ruby -e "#{requires}"`
+        Bash.run "bundle exec ruby -e \"#{requires}\""
       else
-        `ruby -e "#{requires}"`
+        Bash.run "ruby -e \"#{requires}\""
       end
     end
 
