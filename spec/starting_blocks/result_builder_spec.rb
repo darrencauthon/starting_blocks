@@ -12,7 +12,7 @@ describe StartingBlocks::ResultBuilder do
     StartingBlocks::TextParser.stubs(:new).returns text_parser
     text_parser.stubs(:parse).returns parsed_output
 
-    StartingBlocks::ResultBuilder.new.parse input
+    StartingBlocks::ResultBuilder.new.build_from input
   end
 
 

@@ -2,7 +2,7 @@ module StartingBlocks
 
   class ResultBuilder
 
-    def parse run_result
+    def build_from run_result
       load_the_output_from(run_result[:text]).merge(color: color)
     end
 
