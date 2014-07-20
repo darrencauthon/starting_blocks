@@ -4,10 +4,16 @@ describe StartingBlocks::ResultBuilder do
 
   let(:parsed_output) { {} }
   let(:text)          { Object.new }
+  let(:success)       { Object.new }
+  let(:exit_code)     { Object.new }
 
   let(:output) do
     text_parser = Object.new
-    input       = { text: text }
+    input       = { 
+                    text: text,
+                    success: success,
+                    exit_code: exit_code,
+                  }
 
     StartingBlocks::TextParser.stubs(:new).returns text_parser
     text_parser.stubs(:parse).returns parsed_output
@@ -26,6 +32,14 @@ describe StartingBlocks::ResultBuilder do
 
     it "should return the text as the text" do
       output[:text].must_be_same_as text
+    end
+
+    it "should return the success flag" do
+      output[:success].must_be_same_as success
+    end
+
+    it "should return the exit code" do
+      output[:exit_code].must_be_same_as exit_code
     end
 
   end

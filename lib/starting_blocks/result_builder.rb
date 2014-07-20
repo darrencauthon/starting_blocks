@@ -4,7 +4,10 @@ module StartingBlocks
 
     def build_from run_result
       load_the_output_from(run_result[:text])
-        .merge(color: color, text: run_result[:text])
+        .merge(color: color,
+               text: run_result[:text],
+               exit_code: run_result[:exit_code],
+               success:   run_result[:success])
     end
 
     private
