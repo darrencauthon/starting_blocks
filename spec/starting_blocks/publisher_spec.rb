@@ -8,7 +8,7 @@ describe StartingBlocks::Publisher do
   let(:files)          { Object.new }
 
   before do
-    result_builder.stubs(:parse).with(results).returns parsed_results
+    result_builder.stubs(:build_from).with(results).returns parsed_results
     StartingBlocks::Publisher.result_builder = result_builder
   end
 
