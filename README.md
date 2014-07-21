@@ -38,28 +38,37 @@ Run the tests in any test or spec file after it is saved. Will also run the spec
 sb watch
 ````
 
-Turn your [blinky light](https://github.com/perryn/blinky) red/yellow/green based on the results of your test run:
-
-````
-sb blinky
-````
-
-Pop a growl message based on the test results:
-
-````
-sb growl
-````
-
-Run the tests with all of the options listed above:
-
-````
-sb growl blinky watch
-````
-
 Run any arbitrary command through starting blocks. The results of the statement (notably the success or failure determined by the exit code) will be published through your starting blocks plugins.
 
 ````
 sb execute "git push heroku master"
+````
+
+## Plugins
+
+### Blinky Light
+Turn your [blinky light](https://github.com/perryn/blinky) red/yellow/green based on the results of your test run:
+
+````
+gem install starting_blocks-blinky
+sb blinky
+````
+
+### Growl
+Pop a growl message based on your test results:
+
+````
+gem install starting_blocks-growl
+sb growl
+````
+
+### Stopplicht
+
+Change your stopplicht based on your test results:
+
+````
+gem install starting_blocks-stopplicht
+sb growl
 ````
 
 ## Installation
@@ -67,11 +76,3 @@ sb execute "git push heroku master"
 Install it yourself with:
 
     $ gem install starting_blocks
-
-If you would like to use a [blinky light](https://github.com/perryn/blinky) to show the results of your tests:
-
-    $ gem install starting_blocks-blinky
-
-If you would like growl results of your tests:
-
-    $ gem install starting_blocks-growl
