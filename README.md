@@ -56,6 +56,12 @@ Run the tests with all of the options listed above:
 sb --growl --blinky --watch
 ````
 
+Run any arbitrary command through starting blocks. The results of the statement (notably the success or failure determined by the exit code) will be published through your starting blocks plugins.
+
+````
+sb execute "git push heroku master"
+````
+
 ## Installation
 
 Install it yourself with:

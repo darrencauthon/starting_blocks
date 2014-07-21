@@ -1,11 +1,6 @@
-require "starting_blocks/version"
-require_relative 'starting_blocks/runner'
-require_relative 'starting_blocks/watcher'
-require_relative 'starting_blocks/result_parser'
-require_relative 'starting_blocks/result_text_parser'
-require_relative 'starting_blocks/publisher'
-require_relative 'starting_blocks/cli'
-require_relative 'starting_blocks/minitest_contract'
+require_relative "starting_blocks/bash_publisher"
+require_relative "starting_blocks/result_builder"
+Dir[File.dirname(__FILE__) + '/starting_blocks/*.rb'].each { |f| require f }
 
 module StartingBlocks
 
@@ -52,6 +47,20 @@ module StartingBlocks
 
     def default_actions
       {
+        execute: -> do
+                      StartingBlocks::Publisher.result_builder = StartingBlocks::PassThroughResultBuilder.new
+
+                      statement_to_execute = ARGV[ARGV.index('execute') + 1]
+                      StartingBlocks::Publisher.publish_files_to_run [statement_to_execute]
+                      result = StartingBlocks::Bash.run(statement_to_execute)
+                      StartingBlocks::Publisher.publish_results( { color: (result[:success] ? :green : :red),
+                                                                   tests: 1,
+                                                                   assertions: 1,
+                                                                   failures: (result[:success] ? 0 : 1),
+                                                                   errors: 0,
+                                                                   skips: 0 })
+                      puts result[:text]
+                    end,
         watch: -> do
                     listener = StartingBlocks::Watcher.start_watching Dir, StartingBlocks.options
                     StartingBlocks.display "Going to sleep, waiting for changes"
@@ -69,7 +78,7 @@ module StartingBlocks
                   end,
         run_all_tests: -> do
                             results = run_all_specs.call
-                                      parsed_results = StartingBlocks::Publisher.result_parser.parse(results)
+                                      parsed_results = StartingBlocks::Publisher.result_builder.build_from results
                             success = parsed_results[:color] == :green
                                       exit success
                           end,
@@ -96,4 +105,3 @@ module StartingBlocks
     puts message if @verbose
   end
 end
-#StartingBlocks::Publisher.subscribers << StartingBlocks::Extensions::BlinkyLighting.new

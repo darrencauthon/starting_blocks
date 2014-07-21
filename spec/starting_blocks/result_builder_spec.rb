@@ -1,21 +1,47 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe StartingBlocks::ResultParser do
+describe StartingBlocks::ResultBuilder do
 
   let(:parsed_output) { {} }
+  let(:text)          { Object.new }
+  let(:success)       { Object.new }
+  let(:exit_code)     { Object.new }
 
   let(:output) do
-    text        = Object.new
     text_parser = Object.new
+    input       = { 
+                    text: text,
+                    success: success,
+                    exit_code: exit_code,
+                  }
 
-    StartingBlocks::ResultTextParser.stubs(:new).returns text_parser
-    text_parser.stubs(:parse).with(text).returns parsed_output
+    StartingBlocks::TextParser.stubs(:new).returns text_parser
+    text_parser.stubs(:parse).returns parsed_output
 
-    StartingBlocks::ResultParser.new.parse text
+    StartingBlocks::ResultBuilder.new.build_from input
   end
 
-  it "should return the result from the text parser" do
-    output.must_be_same_as parsed_output
+
+  describe "returning results from the text parser" do
+
+    it "should return the data from the text parser" do
+      key, value         = Object.new, Object.new
+      parsed_output[key] = value
+      output[key].must_be_same_as value
+    end
+
+    it "should return the text as the text" do
+      output[:text].must_be_same_as text
+    end
+
+    it "should return the success flag" do
+      output[:success].must_be_same_as success
+    end
+
+    it "should return the exit code" do
+      output[:exit_code].must_be_same_as exit_code
+    end
+
   end
 
   describe "different output scenarios" do

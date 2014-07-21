@@ -1,10 +1,13 @@
 module StartingBlocks
-  class ResultParser
 
-    def parse text
-      output = load_the_output_from text
-      output[:color] = color
-      output
+  class ResultBuilder
+
+    def build_from run_result
+      load_the_output_from(run_result[:text])
+        .merge(color: color,
+               text: run_result[:text],
+               exit_code: run_result[:exit_code],
+               success:   run_result[:success])
     end
 
     private
@@ -17,7 +20,7 @@ module StartingBlocks
     end
 
     def load_the_output_from text
-      @output = StartingBlocks::ResultTextParser.new.parse text
+      @output = StartingBlocks::TextParser.new.parse text
     end
 
     def tests_exist?

@@ -1,12 +1,20 @@
 module StartingBlocks
   module Publisher
     class << self
-      attr_accessor :subscribers, :result_parser
+      attr_accessor :subscribers, :result_builder
+
+      def subscribers
+        @subscribers ||= [BashPublisher.new]
+      end
+
+      def result_builder
+        @result_builder ||= StartingBlocks::ResultBuilder.new
+      end
 
       def publish_results results
-        return unless @subscribers
-        @subscribers.each do |s| 
-          parsed_results = StartingBlocks::Publisher.result_parser.parse(results)
+        return unless subscribers
+        subscribers.each do |s|
+          parsed_results = StartingBlocks::Publisher.result_builder.build_from results
           begin
             s.receive_results parsed_results
           rescue
@@ -15,8 +23,8 @@ module StartingBlocks
       end
 
       def publish_files_to_run files
-        return unless @subscribers
-        @subscribers.each do |s| 
+        return unless subscribers
+        subscribers.each do |s|
           begin
             s.receive_files_to_run files
           rescue
@@ -26,5 +34,3 @@ module StartingBlocks
     end
   end
 end
-StartingBlocks::Publisher.subscribers = []
-StartingBlocks::Publisher.result_parser = StartingBlocks::ResultParser.new
