@@ -35,25 +35,25 @@ sb
 Run the tests in any test or spec file after it is saved. Will also run the specs for any file that has a matching test or spec file:
 
 ````
-sb --watch
+sb watch
 ````
 
 Turn your [blinky light](https://github.com/perryn/blinky) red/yellow/green based on the results of your test run:
 
 ````
-sb --blinky
+sb blinky
 ````
 
 Pop a growl message based on the test results:
 
 ````
-sb --growl
+sb growl
 ````
 
 Run the tests with all of the options listed above:
 
 ````
-sb --growl --blinky --watch
+sb growl blinky watch
 ````
 
 Run any arbitrary command through starting blocks. The results of the statement (notably the success or failure determined by the exit code) will be published through your starting blocks plugins.
