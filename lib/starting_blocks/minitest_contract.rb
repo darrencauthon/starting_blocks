@@ -56,6 +56,7 @@ module StartingBlocks
                 else
                   "ruby -e \"#{requires}\""
                 end
+      puts command if options[:verbose]
       Bash.run command
     end
 
