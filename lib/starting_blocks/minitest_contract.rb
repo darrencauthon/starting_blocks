@@ -56,7 +56,6 @@ module StartingBlocks
                 else
                   "ruby -e \"#{requires}\""
                 end
-      puts "Running: #{command}" if StartingBlocks.verbose
       Bash.run command
     end
 

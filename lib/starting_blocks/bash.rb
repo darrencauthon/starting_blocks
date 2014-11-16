@@ -1,6 +1,7 @@
 module StartingBlocks
   module Bash
     def self.run command
+      puts "Running: #{command}" if StartingBlocks.verbose
       text      = `#{command}`
       result    = $?
       {
