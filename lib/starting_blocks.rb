@@ -63,7 +63,7 @@ module StartingBlocks
                     end,
         watch: -> do
                     listener = StartingBlocks::Watcher.start_watching Dir, StartingBlocks.options
-                    StartingBlocks.display "Going to sleep, waiting for changes"
+                    StartingBlocks::Verbose.say "Going to sleep, waiting for changes"
                     puts 'Enter "stop" to stop the listener'
                     puts 'Enter a blank line to run all of the tests'
                     listener.start
@@ -101,7 +101,4 @@ module StartingBlocks
 
   end
 
-  def self.display message
-    puts message if @verbose
-  end
 end

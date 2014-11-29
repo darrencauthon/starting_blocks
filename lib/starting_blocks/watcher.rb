@@ -30,7 +30,7 @@ module StartingBlocks
       end
 
       def start_watching(dir, options)
-        StartingBlocks.display("Start watching #{dir.getwd} with #{options.inspect}")
+        StartingBlocks::Verbose.say("Start watching #{dir.getwd} with #{options.inspect}")
         set_up_the_runner options
         set_up_the_contract options
 
@@ -40,7 +40,7 @@ module StartingBlocks
         puts "Listening to: #{location}"
 
         callback = Proc.new do |modified, added, removed|
-                     StartingBlocks.display("File counts: #{[modified.count, added.count, removed.count].inspect}")
+                     StartingBlocks::Verbose.say("File counts: #{[modified.count, added.count, removed.count].inspect}")
                      StartingBlocks::Watcher.add_it(added[0])      if added.count > 0
                      StartingBlocks::Watcher.delete_it(removed[0]) if removed.count > 0
                      next if @running
@@ -55,14 +55,14 @@ module StartingBlocks
 
       def add_it(file_that_changed)
         return if not_concerned_about? file_that_changed
-        StartingBlocks.display "Adding: #{file_that_changed}"
+        StartingBlocks::Verbose.say "Adding: #{file_that_changed}"
         @all_files << file_that_changed
       end
 
       def run_it(file_that_changed)
         @running = true
         specs = get_the_specs_to_run file_that_changed
-        StartingBlocks.display "Matches: #{specs.inspect}"
+        StartingBlocks::Verbose.say "Matches: #{specs.inspect}"
         results = @runner.run_files specs
         store_the_specs_if_they_failed results, specs
         @running = false
@@ -70,7 +70,7 @@ module StartingBlocks
 
       def delete_it(file_that_changed)
         return if not_concerned_about? file_that_changed
-        StartingBlocks.display "Deleting: #{file_that_changed}"
+        StartingBlocks::Verbose.say "Deleting: #{file_that_changed}"
         @all_files.delete(file_that_changed)
       end
 
