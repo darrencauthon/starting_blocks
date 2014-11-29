@@ -4,8 +4,8 @@ module StartingBlocks
 
     def self.operations_to_always_run
       {
-        "vendor"  => (-> { StartingBlocks.options[:no_vendor]   = (StartingBlocks.arguments.include?(:vendor) == false) }),
-        "bundler" => (-> { StartingBlocks.options[:use_bundler] = (Dir['Gemfile'].count > 0) } )
+        "vendor"  => (-> { OnlyRunTestsInVendorIfAsked.new.run } ),
+        "bundler" => (-> { UseBundlerIfAGemfileExists.new.run  } )
       }
     end
 
