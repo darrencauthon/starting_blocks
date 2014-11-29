@@ -2,11 +2,20 @@ module StartingBlocks
 
   class Operation
 
-    def id
+    def self.all
+      @operations ||= []
+    end
+
+    def self.inherited type
+      @operations ||= []
+      @operations << type
+    end
+
+    def self.id
       raise 'implement this'
     end
 
-    def always_run
+    def self.always_run
       false
     end
 

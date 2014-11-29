@@ -3,10 +3,13 @@ module StartingBlocks
   module Default
 
     def self.operations_to_always_run
-      {
-        "vendor"  => (-> { OnlyRunTestsInVendorIfAsked.new.run } ),
-        "bundler" => (-> { UseBundlerIfAGemfileExists.new.run  } )
-      }
+      #{
+        #"vendor"  => (-> { OnlyRunTestsInVendorIfAsked.new.run } ),
+        #"bundler" => (-> { UseBundlerIfAGemfileExists.new.run  } )
+      #}
+      #.select { |x| x.always_run }
+      StartingBlocks::Operation.all
+        .map    { |x| (-> { x.new.run } ) }
     end
 
     def self.conditional_operations

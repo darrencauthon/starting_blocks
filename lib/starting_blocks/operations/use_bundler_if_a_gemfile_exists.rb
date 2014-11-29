@@ -2,11 +2,11 @@ module StartingBlocks
 
   class UseBundlerIfAGemfileExists < Operation
 
-    def id
-      'vendor'
+    def self.id
+      'bundler'
     end
 
-    def always_run
+    def self.always_run
       true
     end
 

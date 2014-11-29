@@ -2,11 +2,11 @@ module StartingBlocks
 
   class OnlyRunTestsInVendorIfAsked < Operation
 
-    def id
+    def self.id
       'vendor'
     end
 
-    def always_run
+    def self.always_run
       true
     end
 
