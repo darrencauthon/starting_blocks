@@ -5,10 +5,8 @@ Dir[File.dirname(__FILE__) + '/starting_blocks/*.rb'].each { |f| require f }
 module StartingBlocks
 
   class << self
-    attr_accessor :verbose
-    attr_accessor :options
-    attr_accessor :arguments
-    attr_accessor :conditional_operations
+
+    attr_accessor :verbose, :options, :arguments, :conditional_operations
 
     def options
       @options ||= {}
