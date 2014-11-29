@@ -21,27 +21,14 @@ module StartingBlocks
     end
 
     def conditional_operations
-      @conditional_operations ||= default_conditional_operations
+      @conditional_operations ||= StartingBlocks::Default.conditional_operations
     end
 
     def operations_to_always_run
-      @operations_to_always_run ||= default_operations_to_always_run
+      @operations_to_always_run ||= StartingBlocks::Default.operations_to_always_run
     end
 
     private
-
-    def default_operations_to_always_run
-      {
-        "vendor"  => (-> { StartingBlocks.options[:no_vendor]   = (StartingBlocks.arguments.include?(:vendor) == false) }),
-        "bundler" => (-> { StartingBlocks.options[:use_bundler] = (Dir['Gemfile'].count > 0) } )
-      }
-    end
-
-    def default_conditional_operations
-      {
-        verbose: -> { StartingBlocks.verbose = true }
-      }
-    end
 
     def default_actions
       {
