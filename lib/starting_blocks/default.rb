@@ -22,9 +22,6 @@ module StartingBlocks
                             success = parsed_results[:color] == :green
                                       exit success
                           end,
-        off: -> do
-                  StartingBlocks::Extensions::BlinkyLighting.turn_off!
-                end
       }.merge(StartingBlocks::Operation.all.reject { |x| x.always_run }.reduce({}) { |t, i| t.merge!(i.id => (-> { i.new.run })) })
     end
 
