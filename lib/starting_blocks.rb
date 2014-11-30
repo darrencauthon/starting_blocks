@@ -3,7 +3,6 @@ require_relative "starting_blocks/result_builder"
 Dir[File.dirname(__FILE__) + '/starting_blocks/*.rb'].each { |f| require f }
 Dir[File.dirname(__FILE__) + '/starting_blocks/operations/*.rb'].each { |f| require f }
 
-
 module StartingBlocks
 
   class << self
