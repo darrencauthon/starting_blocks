@@ -7,7 +7,7 @@ module StartingBlocks
 
   class << self
 
-    attr_accessor :verbose, :options, :arguments, :conditional_operations
+    attr_accessor :verbose, :options, :arguments
 
     def options
       @options ||= {}
@@ -19,10 +19,6 @@ module StartingBlocks
 
     def actions
       @actions ||= StartingBlocks::Default.actions
-    end
-
-    def conditional_operations
-      @conditional_operations ||= StartingBlocks::Default.conditional_operations
     end
 
     def operations_to_always_run

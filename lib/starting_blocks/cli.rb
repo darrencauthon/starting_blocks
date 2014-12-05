@@ -29,11 +29,7 @@ module StartingBlocks
 
       def setup_the_system
         StartingBlocks.arguments.each do |argument|
-          if operation = StartingBlocks.conditional_operations[argument]
-            operation.call
-          else
-            try_to_load_a_blinky_extension argument
-          end
+          try_to_load_a_blinky_extension argument
         end
         StartingBlocks.operations_to_always_run.each { |o| o.call }
       end
