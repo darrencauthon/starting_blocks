@@ -6,7 +6,7 @@ module StartingBlocks
       'vendor'
     end
 
-    def self.always_run
+    def self.setup?
       true
     end
 

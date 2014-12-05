@@ -31,7 +31,7 @@ module StartingBlocks
         StartingBlocks.arguments.each do |argument|
           try_to_load_a_blinky_extension argument
         end
-        StartingBlocks.operations_to_always_run.each { |o| o.call }
+        StartingBlocks.setup_operations.each { |o| o.call }
       end
 
       def try_to_load_a_blinky_extension argument

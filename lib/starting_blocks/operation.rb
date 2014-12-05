@@ -15,7 +15,7 @@ module StartingBlocks
       raise 'implement this'
     end
 
-    def self.always_run
+    def self.setup?
       false
     end
 

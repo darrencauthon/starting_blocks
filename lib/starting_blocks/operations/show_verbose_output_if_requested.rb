@@ -6,7 +6,7 @@ module StartingBlocks
       :verbose
     end
 
-    def self.always_run
+    def self.setup?
       true
     end
 

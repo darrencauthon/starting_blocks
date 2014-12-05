@@ -19,15 +19,15 @@ module StartingBlocks
 
     def actions
       @actions ||= StartingBlocks::Operation.all
-                     .reject { |x| x.always_run }
+                     .reject { |x| x.setup? }
                      .reduce({}) { |t, i| t.merge!(i.id => (-> { i.new.run })) }
  
     end
 
-    def operations_to_always_run
-      @operations_to_always_run ||= StartingBlocks::Operation.all
-                                      .select { |x| x.always_run }
-                                      .map    { |x| (-> { x.new.run } ) }
+    def setup_operations
+      @setup_operations ||= StartingBlocks::Operation.all
+                              .select { |x| x.setup? }
+                              .map    { |x| (-> { x.new.run } ) }
     end
 
   end
