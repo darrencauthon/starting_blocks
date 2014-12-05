@@ -19,6 +19,10 @@ module StartingBlocks
       false
     end
 
+    def self.conditional?
+      false
+    end
+
     def run
     end
 

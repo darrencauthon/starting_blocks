@@ -9,13 +9,16 @@ module StartingBlocks
     end
 
     def self.conditional_operations
-      {
-        verbose: -> { StartingBlocks.verbose = true },
-      }
+      StartingBlocks::Operation.all
+                               .select { |x| x.conditional? }
+                               .reduce({}) { |t, i| t.merge!(i.id => (-> { i.new.run })) }
     end
 
     def self.actions
-      StartingBlocks::Operation.all.reject { |x| x.always_run }.reduce({}) { |t, i| t.merge!(i.id => (-> { i.new.run })) }
+      StartingBlocks::Operation.all
+                               .reject { |x| x.always_run }
+                               .reject { |x| x.conditional? }
+                               .reduce({}) { |t, i| t.merge!(i.id => (-> { i.new.run })) }
     end
 
   end
