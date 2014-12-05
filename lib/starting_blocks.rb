@@ -18,11 +18,16 @@ module StartingBlocks
     end
 
     def actions
-      @actions ||= StartingBlocks::Default.actions
+      @actions ||= StartingBlocks::Operation.all
+                     .reject { |x| x.always_run }
+                     .reduce({}) { |t, i| t.merge!(i.id => (-> { i.new.run })) }
+ 
     end
 
     def operations_to_always_run
-      @operations_to_always_run ||= StartingBlocks::Default.operations_to_always_run
+      @operations_to_always_run ||= StartingBlocks::Operation.all
+                                      .select { |x| x.always_run }
+                                      .map    { |x| (-> { x.new.run } ) }
     end
 
   end
