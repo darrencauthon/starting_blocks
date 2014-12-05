@@ -6,12 +6,12 @@ module StartingBlocks
       :verbose
     end
 
-    def self.conditional?
+    def self.always_run
       true
     end
 
     def run
-      StartingBlocks.verbose = true
+      StartingBlocks.verbose = StartingBlocks.arguments.include?(:verbose)
     end
 
   end
