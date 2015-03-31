@@ -52,6 +52,18 @@ describe StartingBlocks::Watcher do
       [
         ['ttest_two_spec_something_else.txt', 'test_three.txt'], ['_spec', 'test_'], ['test_three.txt'],
       ],
+      [
+        ['foo/two_spec.txt', 'foo/three_test.txt'], ['_spec', '_test'], ['foo/two_spec.txt', 'foo/three_test.txt'],
+      ],
+      [
+        ['foo.git/two_spec.txt', 'foo.git/three_test.txt'], ['_spec', '_test'], ['foo.git/two_spec.txt', 'foo.git/three_test.txt'],
+      ],
+      [
+        ['foo/bar/two_spec.txt', 'foo/bar/three_test.txt'], ['_spec', '_test'], ['foo/bar/two_spec.txt', 'foo/bar/three_test.txt'],
+      ],
+      [
+        ['foo/bar.git/two_spec.txt', 'foo/bar.git/three_test.txt'], ['_spec', '_test'], ['foo/bar.git/two_spec.txt', 'foo/bar.git/three_test.txt'],
+      ],
     ].map { |x| Struct.new(:files, :clues, :expected).new(*x) }.each do |example|
 
       describe "multiple examples" do
