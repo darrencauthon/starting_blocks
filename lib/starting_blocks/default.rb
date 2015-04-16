@@ -22,7 +22,7 @@ module StartingBlocks
 
                       statement_to_execute = ARGV[ARGV.index('execute') + 1]
                       StartingBlocks::Publisher.publish_files_to_run [statement_to_execute]
-                      result = StartingBlocks::Bash.run(statement_to_execute)
+                      result = StartingBlocks::Bash.run(statement_to_execute, block = Proc.new {|x| system( x) })
                       StartingBlocks::Publisher.publish_results( { color: (result[:success] ? :green : :red),
                                                                    tests: 1,
                                                                    assertions: 1,
