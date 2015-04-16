@@ -1,8 +1,8 @@
 module StartingBlocks
   module Bash
-    def self.run command
+    def self.run command, block = Proc.new { |command_to_run| `#{command_to_run}` }
       StartingBlocks::Verbose.say "Running: #{command}"
-      text      = `#{command}`
+      text      = block.call command
       result    = $?
       {
         text:      text,
