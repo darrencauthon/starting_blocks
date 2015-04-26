@@ -64,7 +64,7 @@ Change your stopplicht based on your test results:
 
 ````
 gem install starting_blocks-stopplicht
-sb growl
+sb stopplicht
 ````
 
 ## Installation
