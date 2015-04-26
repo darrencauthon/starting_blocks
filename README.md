@@ -67,6 +67,15 @@ gem install starting_blocks-stopplicht
 sb stopplicht
 ````
 
+### RSpec
+
+Run your RSpec tests with starting_blocks:
+
+````
+gem install starting_blocks-rspec
+sb rspec
+````
+
 ## Installation
 
 Install it yourself with:
