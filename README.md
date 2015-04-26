@@ -40,6 +40,12 @@ Run any arbitrary command through starting blocks. The results of the statement 
 sb execute "git push heroku master"
 ````
 
+Run multiple commands and plugings at once. This will run watch for your tests and publish the results to the blinky and growl plugins.
+
+````
+sb watch blinky growl
+````
+
 ## Plugins
 
 ### Blinky Light
