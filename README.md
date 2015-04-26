@@ -73,6 +73,15 @@ gem install starting_blocks-stopplicht
 sb stopplicht
 ````
 
+### Elixir
+
+Run your Elixir tests with starting_blocks:
+
+````
+gem install starting_blocks-elixir
+sb elixir
+````
+
 ### RSpec
 
 Run your RSpec tests with starting_blocks:
