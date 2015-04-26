@@ -40,6 +40,12 @@ Run any arbitrary command through starting blocks. The results of the statement 
 sb execute "git push heroku master"
 ````
 
+Run multiple commands and plugings at once. This will run watch for your tests and publish the results to the blinky and growl plugins.
+
+````
+sb watch blinky growl
+````
+
 ## Plugins
 
 ### Blinky Light
@@ -64,7 +70,25 @@ Change your stopplicht based on your test results:
 
 ````
 gem install starting_blocks-stopplicht
-sb growl
+sb stopplicht
+````
+
+### Elixir
+
+Run your Elixir tests with starting_blocks:
+
+````
+gem install starting_blocks-elixir
+sb elixir
+````
+
+### RSpec
+
+Run your RSpec tests with starting_blocks:
+
+````
+gem install starting_blocks-rspec
+sb rspec
 ````
 
 ## Installation
